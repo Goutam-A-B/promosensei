@@ -1,0 +1,49 @@
+# Render Blueprint — one-click deploy for the PromoSensei backend.
+#
+# Usage:
+#   1. Push this repo to GitHub.
+#   2. In Render: New → Blueprint → connect the repo.
+#   3. Set the env vars marked `sync: false` below in the Render dashboard
+#      (DATABASE_URL from Neon, API_CORS_ORIGINS with your Vercel URL).
+#   4. After first deploy, run a one-time job from the Render shell:
+#        python scripts/seed_demo.py --reset
+#
+# Free-tier caveats:
+#   - The web service sleeps after 15 minutes of inactivity. First request
+#     after sleep takes ~30s. Acceptable for a recruiter demo.
+#   - Background workers aren't available on free; APScheduler runs in the
+#     web process. ENABLE_SCHEDULER=false in production keeps cold-starts
+#     fast — the demo data doesn't need refreshing.
+
+services:
+  - type: web
+    name: promosensei-api
+    runtime: docker
+    plan: free
+    region: singapore  # closest to where recruiters likely click from in IN/SEA
+    rootDir: phase4/backend
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: PORT
+        value: "10000"  # Render's default for free web services
+      - key: SCRAPER_USE_FIXTURES
+        value: "true"
+      - key: ENABLE_SCHEDULER
+        value: "false"  # cold starts are fragile on free tier; static demo
+      - key: SEARCH_DEFAULT_MODE
+        value: hybrid
+      - key: EMBEDDING_PROVIDER
+        value: hashing
+      - key: LOG_FORMAT
+        value: json
+      - key: METRICS_ENABLED
+        value: "true"
+      - key: CACHE_PROVIDER
+        value: memory
+      # Set in the Render dashboard — don't commit secrets.
+      - key: DATABASE_URL
+        sync: false
+      - key: API_CORS_ORIGINS
+        sync: false

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head><meta charset="utf-8"><title>Nykaa : Beauty Deals</title></head>
+<body>
+<div class="search-results">
+
+  <!-- Same product as Amazon B08L5W1QSH (Cetaphil Cleanser 250ml) — pack size MUST match -->
+  <div data-sku="123456" class="product-card">
+    <a class="product-title" href="/cetaphil-gentle-skin-cleanser/p/123456">
+      Cetaphil Gentle Skin Cleanser - For Dry Sensitive Skin 250ml
+    </a>
+    <img class="product-image" src="https://images-static.nykaa.com/cetaphil-250ml.jpg" />
+    <span class="product-price-offer">₹685</span>
+    <span class="product-price-mrp">₹925</span>
+    <span class="product-rating">4.5</span>
+  </div>
+
+  <!-- Different pack size — must NOT match the 250ml Cetaphil (edge case 3.5) -->
+  <div data-sku="123457" class="product-card">
+    <a class="product-title" href="/cetaphil-gentle-skin-cleanser-500ml/p/123457">
+      Cetaphil Gentle Skin Cleanser 500ml
+    </a>
+    <img class="product-image" src="https://images-static.nykaa.com/cetaphil-500ml.jpg" />
+    <span class="product-price-offer">₹1,199</span>
+    <span class="product-price-mrp">₹1,650</span>
+    <span class="product-rating">4.6</span>
+  </div>
+
+  <!-- Same product as Amazon B0AAA00001 (Lakme Absolute Foundation 25g) -->
+  <div data-sku="234567" class="product-card">
+    <a class="product-title" href="/lakme-absolute-3d-smooth-matte-foundation/p/234567">
+      Lakme Absolute 3D Smooth Matte Foundation 25g
+    </a>
+    <img class="product-image" src="https://images-static.nykaa.com/lakme-foundation.jpg" />
+    <span class="product-price-offer">₹579</span>
+    <span class="product-price-mrp">₹899</span>
+    <span class="product-rating">4.2</span>
+  </div>
+
+  <!-- Nykaa-only -->
+  <div data-sku="345678" class="product-card">
+    <a class="product-title" href="/mamaearth-vitamin-c-face-wash/p/345678">
+      Mamaearth Vitamin C Face Wash with Vitamin C and Turmeric 100ml
+    </a>
+    <img class="product-image" src="https://images-static.nykaa.com/mamaearth-vit-c.jpg" />
+    <span class="product-price-offer">₹209</span>
+    <span class="product-price-mrp">₹249</span>
+    <span class="product-rating">4.3</span>
+  </div>
+
+  <!-- Nykaa-only -->
+  <div data-sku="456789" class="product-card">
+    <a class="product-title" href="/plum-green-tea-toner/p/456789">
+      Plum Green Tea Alcohol-Free Toner 200ml
+    </a>
+    <img class="product-image" src="https://images-static.nykaa.com/plum-toner.jpg" />
+    <span class="product-price-offer">₹385</span>
+    <span class="product-price-mrp">₹450</span>
+    <span class="product-rating">4.4</span>
+  </div>
+
+  <!-- Edge case: missing price → must be dropped by normalizer -->
+  <div data-sku="567890" class="product-card">
+    <a class="product-title" href="/coming-soon-product/p/567890">
+      Pre-launch Skincare Drop
+    </a>
+    <img class="product-image" src="https://images-static.nykaa.com/missing-price.jpg" />
+    <span class="product-rating">5.0</span>
+  </div>
+
+</div>
+</body>
+</html>

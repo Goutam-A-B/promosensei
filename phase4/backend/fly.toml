@@ -1,0 +1,51 @@
+# Fly.io config — alternative to Render if you want no cold-start sleep.
+#
+# Fly's free allowance covers a single shared-cpu-1x machine (256 MB) which
+# is enough for a single-instance demo. It does require a credit card on
+# file these days; if that's a blocker, stay on Render.
+#
+# Usage (from phase4/backend):
+#   flyctl launch --no-deploy           # creates the app, accepts this toml
+#   flyctl secrets set \
+#       DATABASE_URL='postgres://…neon…' \
+#       API_CORS_ORIGINS='["https://promosensei.vercel.app"]'
+#   flyctl deploy
+#   flyctl ssh console -C 'python scripts/seed_demo.py --reset'
+
+app = "promosensei-api"
+primary_region = "sin"  # Singapore — closest to IN
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  PORT = "8080"
+  SCRAPER_USE_FIXTURES = "true"
+  ENABLE_SCHEDULER = "true"     # Fly machines don't sleep; schedule the price refresh
+  SEARCH_DEFAULT_MODE = "hybrid"
+  EMBEDDING_PROVIDER = "hashing"
+  LOG_FORMAT = "json"
+  METRICS_ENABLED = "true"
+  CACHE_PROVIDER = "memory"
+  PRICE_REFRESH_MINUTES = "30"
+  INDEXER_SCHEDULE_MINUTES = "60"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
+
+  [[http_service.checks]]
+    interval = "30s"
+    timeout = "5s"
+    grace_period = "15s"
+    method = "GET"
+    path = "/health"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"
+  cpus = 1

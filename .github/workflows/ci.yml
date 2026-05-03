@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Show only the most recent run per ref — older runs get cancelled to save
+# free-tier CI minutes.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    name: Backend (phase4) — pytest + eval gate
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: phase4/backend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: phase4/backend/requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run pytest (181 tests including the eval-regression gate)
+        env:
+          DATABASE_URL: sqlite+pysqlite:///:memory:
+          ENABLE_SCHEDULER: "false"
+          SCRAPER_USE_FIXTURES: "true"
+        run: pytest -q
+
+  frontend:
+    name: Frontend (phase4) — type-check + build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: phase4/frontend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: phase4/frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type-check
+        run: npx tsc --noEmit
+
+      - name: Build
+        env:
+          # Vercel will inject this in production; CI just needs *something*.
+          NEXT_PUBLIC_API_BASE_URL: http://localhost:8000
+        run: npm run build

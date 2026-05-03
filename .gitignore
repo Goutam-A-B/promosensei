@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+.mypy_cache/
+.ruff_cache/
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+promosensei_dev.db
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Node / Next
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Build artifacts
+dist/
+build/

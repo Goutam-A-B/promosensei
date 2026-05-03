@@ -1,0 +1,83 @@
+# Hand-labeled evaluation set for the ranking quality test.
+#
+# Each entry:
+#   query:       free-text the user types
+#   relevant:    substrings — a result is "relevant" if any one matches
+#                the canonical title, brand, or category (case-insensitive)
+#   mode:        keyword | semantic | hybrid (default: hybrid)
+#   max_price:   optional listing-level filter
+#   min_rating:  optional listing-level filter
+#   platform:    optional listing-level filter
+#
+# Add new queries when:
+#   - a real-world query starts ranking poorly
+#   - a new edge case from docs/edge-cases.md needs a regression test
+#   - a new product category lands in the fixtures
+#
+# Keep the labels permissive (substring on title/brand/category). Tighter
+# labels — exact product ids — produce a more sensitive test but require
+# rewriting on every fixture change.
+
+- query: "earbuds"
+  relevant: ["earbuds", "buds", "airdopes"]
+  description: "Generic category recall."
+
+- query: "noise cancelling headphones"
+  relevant: ["sony", "wh-1000", "wh1000", "noise cancellation"]
+  description: "Synonym handling — semantic should beat keyword here."
+  mode: hybrid
+
+- query: "good earbuds under 2000"
+  relevant: ["airdopes", "buds"]
+  description: "Inline price constraint plus a quality cue."
+
+- query: "samsung wireless earbuds"
+  relevant: ["samsung", "buds"]
+  description: "Brand + category."
+
+- query: "sony headphones with mic"
+  relevant: ["sony", "headset", "wh-1000", "wh1000"]
+  description: "Brand + accessory feature."
+
+- query: "iphone"
+  relevant: ["iphone", "apple"]
+  description: "Single-token brand recall."
+
+- query: "iphone 15 128gb"
+  relevant: ["iphone 15", "apple iphone 15"]
+  description: "Model + spec — should rank standalone above the combo SKU."
+
+- query: "fitness tracker"
+  relevant: ["mi smart band", "fitness", "tracker"]
+  description: "Category-only query."
+
+- query: "wireless mouse"
+  relevant: ["logitech", "mx master", "wireless mouse"]
+  description: "Generic peripheral lookup."
+
+- query: "laptop for students"
+  relevant: ["lenovo", "ideapad", "laptop"]
+  description: "Use-case framing — semantic should still find the laptop."
+  mode: hybrid
+  max_price: 80000
+
+- query: "face wash"
+  relevant: ["face wash", "cleanser", "mamaearth"]
+  description: "Beauty category query."
+
+- query: "vitamin c face wash"
+  relevant: ["vitamin c", "mamaearth", "face wash"]
+  description: "Ingredient + category — should outrank generic cleansers."
+
+- query: "moisturiser for dry skin"
+  relevant: ["cetaphil", "cleanser", "moisturiser", "moisturizer"]
+  description: "Spelling variants + use-case — semantic stretch test."
+  mode: semantic
+
+- query: "lakme foundation"
+  relevant: ["lakme", "foundation"]
+  description: "Brand + sub-category."
+
+- query: "green tea toner"
+  relevant: ["plum", "toner", "green tea"]
+  description: "Specific product + ingredient."
