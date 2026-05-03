@@ -37,7 +37,10 @@ export default function ProductCard({ product, showSimilarity = false }: Props) 
             loading="lazy"
           />
         ) : (
-          <div className="flex h-full items-center justify-center text-xs text-slate-400">No image</div>
+          <BrandPlaceholder
+            label={(product.brand ?? product.canonical_title).slice(0, 1).toUpperCase()}
+            seed={product.id}
+          />
         )}
         {bestDiscount !== null && bestDiscount > 0 && (
           <span className="absolute left-2 top-2 rounded-full bg-emerald-600 px-2 py-0.5 text-xs font-semibold text-white">
@@ -87,6 +90,34 @@ export default function ProductCard({ product, showSimilarity = false }: Props) 
         )}
       </div>
     </article>
+  );
+}
+
+// Deterministic colour per product id so the card grid looks varied
+// rather than 66 identical grey tiles. Demo catalogue has no real images
+// (we don't hotlink retailer CDNs), so this is the polished fallback.
+//
+// Tailwind's JIT only sees classes that appear as literal strings, so we
+// inline the full classnames here rather than building them dynamically.
+const PLACEHOLDER_GRADIENTS = [
+  "bg-gradient-to-br from-rose-100 to-rose-200",
+  "bg-gradient-to-br from-amber-100 to-amber-200",
+  "bg-gradient-to-br from-emerald-100 to-emerald-200",
+  "bg-gradient-to-br from-sky-100 to-sky-200",
+  "bg-gradient-to-br from-violet-100 to-violet-200",
+  "bg-gradient-to-br from-fuchsia-100 to-fuchsia-200",
+  "bg-gradient-to-br from-teal-100 to-teal-200",
+  "bg-gradient-to-br from-orange-100 to-orange-200",
+];
+
+function BrandPlaceholder({ label, seed }: { label: string; seed: number }) {
+  const gradient = PLACEHOLDER_GRADIENTS[seed % PLACEHOLDER_GRADIENTS.length];
+  return (
+    <div className={`flex h-full items-center justify-center ${gradient}`}>
+      <div className="flex h-20 w-20 items-center justify-center rounded-full bg-white/90 text-3xl font-bold text-slate-700 shadow-sm ring-1 ring-white/60">
+        {label || "?"}
+      </div>
+    </div>
   );
 }
 

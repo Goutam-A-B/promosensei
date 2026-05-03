@@ -24,6 +24,7 @@ from __future__ import annotations
 import argparse
 import logging
 import sys
+import urllib.parse
 from datetime import datetime, timezone
 from decimal import Decimal
 from pathlib import Path
@@ -306,6 +307,27 @@ CATALOGUE: list[tuple[str, list[dict]]] = [
 ]
 
 
+_PLATFORM_SEARCH = {
+    "amazon": "https://www.amazon.in/s?k={q}",
+    "flipkart": "https://www.flipkart.com/search?q={q}",
+    "nykaa": "https://www.nykaa.com/search/result/?q={q}",
+}
+
+
+def _platform_search_url(platform: str, title: str) -> str:
+    """Land on the real platform's search results for the product title.
+
+    We don't store deep-links because they go stale (the demo runs forever
+    without re-scraping) and we'd be hotlinking content we don't control.
+    A search URL is the most stable thing we can hand a clicker — it's a
+    real Amazon / Flipkart / Nykaa page showing the product."""
+    q = urllib.parse.quote_plus(title)
+    template = _PLATFORM_SEARCH.get(platform)
+    if template is None:
+        return f"https://example.com/{q}"
+    return template.format(q=q)
+
+
 def _to_scraped(canonical_title: str, listing: dict) -> ScrapedListing:
     return ScrapedListing(
         platform=listing["platform"],
@@ -315,7 +337,7 @@ def _to_scraped(canonical_title: str, listing: dict) -> ScrapedListing:
         original_price=Decimal(str(listing["original"])) if listing.get("original") else None,
         discount=Decimal(str(listing["discount"])) if listing.get("discount") else None,
         rating=Decimal(str(listing["rating"])) if listing.get("rating") else None,
-        url=listing.get("url") or f"https://{listing['platform']}.example.com/{listing['pid']}",
+        url=listing.get("url") or _platform_search_url(listing["platform"], canonical_title),
         image_url=listing.get("image"),
     )
 
