@@ -4,7 +4,7 @@
 
 [![CI](https://github.com/Goutam-A-B/promosensei/actions/workflows/ci.yml/badge.svg)](https://github.com/Goutam-A-B/promosensei/actions/workflows/ci.yml)
 
-🌐 **Live demo:** _[deploy and add the URL here]_  ·  📖 **How it works:** [/about](#) on the live demo  ·  🧪 **Test count:** 181 passing
+🌐 **Live demo:** [**promosensei.vercel.app**](https://promosensei.vercel.app)  ·  📖 **How it works:** [promosensei.vercel.app/about](https://promosensei.vercel.app/about)  ·  🧪 **Test count:** 181 passing
 
 ---
 
