@@ -40,6 +40,11 @@ class Settings(BaseSettings):
 
     search_default_mode: str = "semantic"
     search_top_k: int = 200
+    # Drop semantic candidates whose cosine similarity is below this floor.
+    # Default 0.0 keeps tests stable (every candidate passes). For the live
+    # demo with the hashing embedder we raise this in render.yaml so noise
+    # candidates don't survive when nothing actually matches the query.
+    search_min_similarity: float = 0.0
     rank_w_similarity: float = 0.6
     rank_w_discount: float = 0.2
     rank_w_rating: float = 0.2

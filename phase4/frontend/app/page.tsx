@@ -120,7 +120,7 @@ export default function HomePage() {
             </div>
             <QueryNotes response={data} />
           </div>
-          <ResultsGrid products={data.results} showSimilarity={showSimilarity} />
+          <ResultsGrid products={data.results} showSimilarity={showSimilarity} query={data.query} />
         </>
       )}
 

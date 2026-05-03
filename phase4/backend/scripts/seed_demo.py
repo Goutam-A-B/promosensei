@@ -292,7 +292,7 @@ CATALOGUE: list[tuple[str, list[dict]]] = [
         _l("flipkart", "SPTGZHFGFBHFGZAQ", 449, original=600, discount=25.17, rating=4.3),
     ]),
 
-    # ---- Books & Stationery (small set, semantic recall edge case) -----
+    # ---- Books & Stationery -------------------------------------------
     ("Atomic Habits by James Clear — Tiny Changes Remarkable Results", [
         _l("amazon", "1847941834", 449, original=799, discount=43.81, rating=4.7),
         _l("flipkart", "BKSGZHFGFBHFGZAQ", 425, original=799, discount=46.81, rating=4.7),
@@ -301,8 +301,210 @@ CATALOGUE: list[tuple[str, list[dict]]] = [
         _l("amazon", "9390166268", 299, original=399, discount=25.06, rating=4.6),
         _l("flipkart", "BKSGZHFGFBHFGZAR", 285, original=399, discount=28.57, rating=4.6),
     ]),
+    ("Sapiens A Brief History of Humankind by Yuval Noah Harari", [
+        _l("amazon", "0099590085", 399, original=599, discount=33.39, rating=4.6),
+    ]),
+    ("Ikigai The Japanese Secret to a Long and Happy Life", [
+        _l("amazon", "1786330385", 199, original=399, discount=50.13, rating=4.5),
+        _l("flipkart", "BKSGZHFGFBHFGZAS", 189, original=399, discount=52.63, rating=4.5),
+    ]),
+    ("Rich Dad Poor Dad by Robert T. Kiyosaki", [
+        _l("amazon", "1612680194", 269, original=399, discount=32.58, rating=4.6),
+    ]),
     ("Parker Vector Standard Roller Ball Pen Black Body", [
         _l("amazon", "B00FWEK20I", 220, original=275, discount=20.00, rating=4.3),
+    ]),
+
+    # ---- Phones (extended) ---------------------------------------------
+    ("Realme Narzo 60 Pro 5G (256 GB) Cosmic Black", [
+        _l("amazon", "B0C9R55C3K", 23999, original=29999, discount=20.00, rating=4.3),
+        _l("flipkart", "MOBGZNRZ60PRO5G", 22999, original=29999, discount=23.34, rating=4.3),
+    ]),
+    ("Vivo Y200 5G (128 GB) Glitter Aqua", [
+        _l("flipkart", "MOBGZVIVOY200", 21999, original=24999, discount=12.00, rating=4.2),
+    ]),
+    ("Oppo Reno 11 Pro 5G (256 GB) Pearl White", [
+        _l("amazon", "B0CV5W6JLF", 39999, original=44999, discount=11.11, rating=4.3),
+        _l("flipkart", "MOBGZOPPORENO11", 38999, original=44999, discount=13.33, rating=4.3),
+    ]),
+    ("iQOO Neo 9 Pro 5G (128 GB) Fiery Red", [
+        _l("amazon", "B0CSG8YV6X", 32999, original=36999, discount=10.81, rating=4.4),
+        _l("flipkart", "MOBGZIQOONEO9PRO", 31999, original=36999, discount=13.51, rating=4.4),
+    ]),
+    ("Nothing Phone 2a (256 GB) Milk", [
+        _l("flipkart", "MOBGZNOTHING2A", 27999, original=29999, discount=6.67, rating=4.3),
+    ]),
+
+    # ---- Tablets -------------------------------------------------------
+    ("Apple iPad Air 11-inch M2 Wi-Fi 128 GB Space Gray", [
+        _l("amazon", "B0CWN3GY1M", 59900, original=59900, rating=4.7),
+        _l("flipkart", "TABGZIPADAIRM2", 58999, original=59900, discount=1.50, rating=4.7),
+    ]),
+    ("Samsung Galaxy Tab S9 FE 5G 10.9-inch Tablet 128 GB Mint", [
+        _l("amazon", "B0CGM8KKJZ", 41999, original=51999, discount=19.23, rating=4.4),
+        _l("flipkart", "TABGZGALAXYTABS9FE", 40999, original=51999, discount=21.16, rating=4.4),
+    ]),
+    ("Lenovo Tab M11 11-inch FHD Tablet 128 GB Luna Grey", [
+        _l("amazon", "B0CSS9JVDC", 18499, original=23999, discount=22.92, rating=4.2),
+    ]),
+
+    # ---- Gaming --------------------------------------------------------
+    ("Sony PlayStation 5 Slim Console with Disc Drive", [
+        _l("amazon", "B0CL61F39H", 54990, original=54990, rating=4.7),
+        _l("flipkart", "GAMGZPS5SLIM", 53999, original=54990, discount=1.80, rating=4.7),
+    ]),
+    ("Xbox Series S 512 GB Console White", [
+        _l("amazon", "B08G9J44ZK", 34990, original=37990, discount=7.90, rating=4.6),
+    ]),
+    ("Sony DualSense Wireless Controller for PS5 Midnight Black", [
+        _l("amazon", "B099GG93WD", 5499, original=6390, discount=13.94, rating=4.6),
+        _l("flipkart", "GAMGZDUALSENSE", 5390, original=6390, discount=15.65, rating=4.6),
+    ]),
+    ("HyperX Cloud Stinger 2 Gaming Headset 7.1 Surround Sound", [
+        _l("amazon", "B0BGGW3VFP", 3490, original=4999, discount=30.19, rating=4.5),
+    ]),
+    ("Logitech G502 X Plus Lightspeed Wireless Gaming Mouse", [
+        _l("amazon", "B0B6PRTQGT", 12995, original=17995, discount=27.79, rating=4.6),
+    ]),
+
+    # ---- Cameras -------------------------------------------------------
+    ("GoPro HERO12 Black 5.3K60 Action Camera", [
+        _l("amazon", "B0CCWFMWY1", 38990, original=49500, discount=21.23, rating=4.5),
+        _l("flipkart", "CAMGZGOPROHERO12", 37990, original=49500, discount=23.25, rating=4.5),
+    ]),
+    ("Canon EOS R50 24.2MP Mirrorless Camera with RF-S 18-45mm Lens", [
+        _l("amazon", "B0BVQTHTTV", 67990, original=74995, discount=9.34, rating=4.7),
+    ]),
+    ("Sony Alpha ZV-E10 Mirrorless Vlog Camera with 16-50mm Lens", [
+        _l("amazon", "B098JZSC8V", 64990, original=78990, discount=17.72, rating=4.6),
+        _l("flipkart", "CAMGZSONYZVE10", 63990, original=78990, discount=18.99, rating=4.6),
+    ]),
+
+    # ---- Kitchen Appliances --------------------------------------------
+    ("Prestige Iris 750W Mixer Grinder with 3 Stainless Steel Jars", [
+        _l("amazon", "B07BHFW9QQ", 2999, original=4895, discount=38.73, rating=4.3),
+        _l("flipkart", "HOMGZPRESTIGEMIXER", 2899, original=4895, discount=40.78, rating=4.3),
+    ]),
+    ("Bajaj Majesty 1603 TSS 16-Litre Oven Toaster Griller", [
+        _l("amazon", "B00LD5VRGE", 6499, original=8995, discount=27.75, rating=4.2),
+    ]),
+    ("Pigeon by Stovekraft Kettle 1.5L Stainless Steel Electric", [
+        _l("amazon", "B00ZW8QLSA", 599, original=1295, discount=53.75, rating=4.2),
+    ]),
+    ("Eureka Forbes Vacuum Cleaner Forbes Trendy Zip 1000W", [
+        _l("amazon", "B07BJX1KZV", 4799, original=6995, discount=31.39, rating=4.1),
+    ]),
+
+    # ---- More Skincare -------------------------------------------------
+    ("Dot & Key Vitamin C+E Sorbet Sunscreen SPF 50 PA+++ 50 ml", [
+        _l("nykaa", "BTYZHFGFBHFGZBB1", 525, original=695, discount=24.46, rating=4.5),
+        _l("amazon", "B09VGPTW8D", 549, original=695, discount=21.01, rating=4.4),
+    ]),
+    ("Foxtale Daily Sunscreen SPF 50 PA+++ Lightweight 50 ml", [
+        _l("nykaa", "BTYZHFGFBHFGZBB2", 449, original=549, discount=18.21, rating=4.5),
+    ]),
+    ("Olay Total Effects 7 in 1 Anti-Ageing Day Cream 50 g", [
+        _l("nykaa", "BTYZHFGFBHFGZBB3", 999, original=1199, discount=16.68, rating=4.4),
+        _l("amazon", "B00JBIN9OC", 1049, original=1199, discount=12.51, rating=4.4),
+    ]),
+    ("Pilgrim Korean Pep-Start C-Glow Vitamin C Face Serum 30 ml", [
+        _l("nykaa", "BTYZHFGFBHFGZBB4", 595, original=795, discount=25.16, rating=4.4),
+    ]),
+    ("CeraVe Moisturising Cream for Dry to Very Dry Skin 340 g", [
+        _l("nykaa", "BTYZHFGFBHFGZBB5", 1599, original=1999, discount=20.01, rating=4.6),
+        _l("amazon", "B00TTD9BRC", 1649, original=1999, discount=17.51, rating=4.6),
+    ]),
+
+    # ---- Perfumes ------------------------------------------------------
+    ("Skinn by Titan Celeste Eau de Parfum for Women 50 ml", [
+        _l("nykaa", "BTYZHFGFBHFGZBB6", 1395, original=1700, discount=17.94, rating=4.5),
+        _l("amazon", "B07HRY5DVQ", 1450, original=1700, discount=14.71, rating=4.4),
+    ]),
+    ("Calvin Klein CK One Eau de Toilette Unisex 100 ml", [
+        _l("nykaa", "BTYZHFGFBHFGZBB7", 4599, original=6500, discount=29.25, rating=4.6),
+    ]),
+    ("Bvlgari Aqva Pour Homme Eau de Toilette for Men 100 ml", [
+        _l("nykaa", "BTYZHFGFBHFGZBB8", 6999, original=7800, discount=10.27, rating=4.7),
+    ]),
+    ("Engage Mate Perfume Spray for Men No Gas Deodorant 120 ml", [
+        _l("amazon", "B07S35KZN3", 230, original=350, discount=34.29, rating=4.3),
+    ]),
+
+    # ---- More Hair / Body ----------------------------------------------
+    ("Schwarzkopf Bonacure Moisture Kick Shampoo 250 ml", [
+        _l("nykaa", "BTYZHFGFBHFGZBB9", 749, original=895, discount=16.31, rating=4.5),
+    ]),
+    ("Philips BHD308/30 Hair Dryer 1600W with ThermoProtect", [
+        _l("amazon", "B0779VNGGF", 1349, original=1995, discount=32.38, rating=4.3),
+        _l("flipkart", "ACCGZPHILIPSBHD", 1299, original=1995, discount=34.89, rating=4.3),
+    ]),
+    ("Dove Cream Beauty Bathing Soap 100g Pack of 6", [
+        _l("amazon", "B07Z8SRNT5", 295, original=378, discount=21.96, rating=4.5),
+    ]),
+
+    # ---- More Fashion --------------------------------------------------
+    ("Levi's Men 511 Slim Fit Jeans Stretchable Mid-Rise Blue", [
+        _l("amazon", "B07T5GJ5KC", 1799, original=3499, discount=48.59, rating=4.3),
+        _l("flipkart", "FOTGZLEVIS511", 1699, original=3499, discount=51.44, rating=4.3),
+    ]),
+    ("US Polo Assn. Men Solid Regular Fit Polo T-Shirt Navy", [
+        _l("amazon", "B0BVVH6L77", 899, original=1499, discount=40.03, rating=4.3),
+        _l("flipkart", "FOTGZUSPOLOTSHIRT", 849, original=1499, discount=43.36, rating=4.3),
+    ]),
+    ("Wildcraft Hypadura Plus 35L Laptop Backpack Black", [
+        _l("amazon", "B07Z6F3J5R", 1499, original=2599, discount=42.32, rating=4.4),
+        _l("flipkart", "FOTGZWILDCRAFTBKPK", 1399, original=2599, discount=46.17, rating=4.4),
+    ]),
+    ("Fastrack Reflex Vox 2.0 Smartwatch Black", [
+        _l("amazon", "B0CHV5PZ8D", 2495, original=3995, discount=37.55, rating=4.1),
+    ]),
+    ("Fossil Gen 6 Smartwatch Black Stainless Steel 44mm", [
+        _l("amazon", "B09KRL36SD", 19995, original=23995, discount=16.67, rating=4.4),
+    ]),
+    ("Adidas Originals Stan Smith Sneakers White Green", [
+        _l("amazon", "B07F61CFGG", 5999, original=8999, discount=33.34, rating=4.5),
+        _l("flipkart", "FOTGZADIDASSTANSMITH", 5799, original=8999, discount=35.56, rating=4.5),
+    ]),
+
+    # ---- More Sports ---------------------------------------------------
+    ("Nivia Storm Football Size 5 Hand Stitched Synthetic", [
+        _l("amazon", "B07PJ7NWVB", 599, original=999, discount=40.04, rating=4.4),
+    ]),
+    ("Cosco Cricket Bat English Willow Short Handle", [
+        _l("amazon", "B07J2D5L3T", 1999, original=2999, discount=33.34, rating=4.2),
+    ]),
+    ("AmazonBasics Resistance Bands Set with Handles 5-Pack", [
+        _l("amazon", "B01BXYMD9Y", 999, original=1799, discount=44.47, rating=4.3),
+    ]),
+
+    # ---- TV & Home (extended) ------------------------------------------
+    ("Samsung 55-inch Crystal 4K UHD Smart TV UA55CUE60AKLXL", [
+        _l("amazon", "B0C8MZ4GFK", 39990, original=58900, discount=32.10, rating=4.4),
+        _l("flipkart", "TVSGZSAMSUNG55CUE60", 38990, original=58900, discount=33.80, rating=4.4),
+    ]),
+    ("LG 1.5 Ton 5 Star Inverter Split AC PS-Q19YNZE Copper", [
+        _l("amazon", "B0BSJSWMJ5", 41990, original=63490, discount=33.86, rating=4.5),
+    ]),
+    ("Voltas Beko 8 kg Top Load Fully Automatic Washing Machine", [
+        _l("flipkart", "WMGZVOLTASBEKO8KG", 18990, original=28990, discount=34.49, rating=4.2),
+    ]),
+    ("Whirlpool 240L 2 Star Frost-Free Double Door Refrigerator", [
+        _l("amazon", "B0BR5L2J67", 23990, original=33490, discount=28.37, rating=4.3),
+    ]),
+
+    # ---- Audio (extended) ----------------------------------------------
+    ("Bose QuietComfort Ultra Wireless Noise Cancelling Headphones", [
+        _l("amazon", "B0CCYZWDDB", 39990, original=44990, discount=11.11, rating=4.6),
+    ]),
+    ("Apple AirPods Max Over-Ear Headphones Sky Blue", [
+        _l("amazon", "B08PZHNMDR", 51900, original=59900, discount=13.36, rating=4.6),
+    ]),
+    ("OnePlus Buds 3 True Wireless Earphones Splendid Blue", [
+        _l("amazon", "B0CWPFJZBL", 4999, original=5499, discount=9.09, rating=4.3),
+        _l("flipkart", "ACCGZONEPLUSBUDS3", 4799, original=5499, discount=12.73, rating=4.3),
+    ]),
+    ("realme Buds Air 5 Pro True Wireless Earphones Astral Black", [
+        _l("flipkart", "ACCGZREALMEBUDSAIR5", 3999, original=5999, discount=33.34, rating=4.3),
     ]),
 ]
 

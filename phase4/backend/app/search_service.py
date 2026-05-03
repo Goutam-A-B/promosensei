@@ -190,12 +190,19 @@ def _semantic_candidates(
     query_vector: list[float],
     model_id: str,
     top_k: int,
+    min_similarity: float = 0.0,
 ) -> list[tuple[Product, float]]:
     """Score every embedded product by cosine similarity, return top_k.
 
     Filtering happens *after* this step, on the listings — that way a
     product with one cheap listing on Flipkart still surfaces even if its
     Amazon listing is over the user's max price.
+
+    `min_similarity` drops candidates whose cosine is below the floor.
+    With a weak embedder (hashing) every product gets a non-zero score
+    from incidental trigram overlap; without a floor, queries with no
+    real match return an arbitrary list ranked by discount/rating, which
+    is misleading. The floor turns "garbage in" into "no results".
     """
     stmt = (
         select(Product, ProductEmbedding.vector_json)
@@ -215,6 +222,8 @@ def _semantic_candidates(
             sim = cosine_similarity(query_vector, vector)
         except ValueError:
             # Dimension mismatch shouldn't happen for the same model_id.
+            continue
+        if sim < min_similarity:
             continue
         scored.append((product, sim))
 
@@ -328,6 +337,7 @@ def search(
         query_vector=query_vector,
         model_id=provider.model_id,
         top_k=settings.search_top_k,
+        min_similarity=settings.search_min_similarity,
     )
 
     sim_by_id: dict[int, float] = {p.id: sim for p, sim in semantic_hits}

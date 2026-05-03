@@ -36,6 +36,12 @@ services:
         value: hybrid
       - key: EMBEDDING_PROVIDER
         value: hashing
+      # The hashing embedder gives every product a small non-zero similarity
+      # from trigram overlap. Without a floor, queries with no real match
+      # return an arbitrary list ranked by discount/rating. 0.18 is calibrated
+      # against the demo catalogue — keeps real matches, drops noise.
+      - key: SEARCH_MIN_SIMILARITY
+        value: "0.18"
       - key: LOG_FORMAT
         value: json
       - key: METRICS_ENABLED

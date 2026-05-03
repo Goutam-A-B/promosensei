@@ -37,8 +37,9 @@ export default function ProductCard({ product, showSimilarity = false }: Props) 
             loading="lazy"
           />
         ) : (
-          <BrandPlaceholder
-            label={(product.brand ?? product.canonical_title).slice(0, 1).toUpperCase()}
+          <CategoryPlaceholder
+            title={product.canonical_title}
+            brand={product.brand}
             seed={product.id}
           />
         )}
@@ -93,13 +94,51 @@ export default function ProductCard({ product, showSimilarity = false }: Props) 
   );
 }
 
-// Deterministic colour per product id so the card grid looks varied
-// rather than 66 identical grey tiles. Demo catalogue has no real images
-// (we don't hotlink retailer CDNs), so this is the polished fallback.
+// Demo catalogue has no real product images (we don't hotlink retailer
+// CDNs — fragile, ToS-questionable). The fallback is a category-aware
+// tile: large emoji for visual context, brand wordmark below, tinted
+// gradient picked deterministically per product so the grid looks varied.
 //
 // Tailwind's JIT only sees classes that appear as literal strings, so we
 // inline the full classnames here rather than building them dynamically.
-const PLACEHOLDER_GRADIENTS = [
+const CATEGORY_RULES: Array<{ pattern: RegExp; emoji: string; gradient: string }> = [
+  // Audio
+  { pattern: /headphone|headset|earbud|airpod|airdopes|buds|speaker/i, emoji: "🎧", gradient: "bg-gradient-to-br from-violet-100 to-indigo-200" },
+  // Phones
+  { pattern: /iphone|galaxy s|pixel|oneplus|redmi|vivo|oppo|realme|smartphone|mobile/i, emoji: "📱", gradient: "bg-gradient-to-br from-sky-100 to-blue-200" },
+  // Laptops / PCs
+  { pattern: /laptop|macbook|ideapad|inspiron|pavilion|notebook|chromebook/i, emoji: "💻", gradient: "bg-gradient-to-br from-slate-100 to-zinc-200" },
+  // Peripherals
+  { pattern: /keyboard|mouse|webcam|monitor|printer/i, emoji: "⌨️", gradient: "bg-gradient-to-br from-stone-100 to-stone-200" },
+  // Wearables
+  { pattern: /watch|smartwatch|band|fitness tracker/i, emoji: "⌚", gradient: "bg-gradient-to-br from-amber-100 to-orange-200" },
+  // Home / Kitchen
+  { pattern: /air fryer|microwave|refrigerator|washing machine|vacuum|robot vacuum|kettle|toaster|blender|mixer/i, emoji: "🏠", gradient: "bg-gradient-to-br from-teal-100 to-emerald-200" },
+  // TV
+  { pattern: /\btv\b|television|smart tv|qled|oled\b/i, emoji: "📺", gradient: "bg-gradient-to-br from-cyan-100 to-sky-200" },
+  // Gaming
+  { pattern: /playstation|ps5|xbox|nintendo|gaming|controller/i, emoji: "🎮", gradient: "bg-gradient-to-br from-fuchsia-100 to-pink-200" },
+  // Cameras
+  { pattern: /camera|gopro|dslr|mirrorless|lens/i, emoji: "📷", gradient: "bg-gradient-to-br from-zinc-100 to-slate-200" },
+  // Books
+  { pattern: /book|hardcover|paperback|by [A-Z]/, emoji: "📚", gradient: "bg-gradient-to-br from-orange-100 to-rose-200" },
+  // Footwear
+  { pattern: /shoe|sneaker|sandal|loafer|boot|footwear/i, emoji: "👟", gradient: "bg-gradient-to-br from-lime-100 to-green-200" },
+  // Sports
+  { pattern: /yoga|dumbbell|gym|sports|cricket|football|shuttle|racquet/i, emoji: "🏋️", gradient: "bg-gradient-to-br from-emerald-100 to-teal-200" },
+  // Skincare
+  { pattern: /cleanser|moisturi[sz]|serum|toner|sunscreen|face wash|cream/i, emoji: "🧴", gradient: "bg-gradient-to-br from-emerald-100 to-cyan-200" },
+  // Makeup
+  { pattern: /lipstick|foundation|kajal|eyeliner|mascara|blush|primer/i, emoji: "💄", gradient: "bg-gradient-to-br from-pink-100 to-rose-200" },
+  // Haircare
+  { pattern: /shampoo|conditioner|hair oil|hair dryer/i, emoji: "💇", gradient: "bg-gradient-to-br from-amber-100 to-yellow-200" },
+  // Perfume
+  { pattern: /perfume|fragrance|cologne|eau de/i, emoji: "🌸", gradient: "bg-gradient-to-br from-rose-100 to-fuchsia-200" },
+  // Stationery
+  { pattern: /pen\b|notebook|stationery|diary/i, emoji: "✒️", gradient: "bg-gradient-to-br from-stone-100 to-amber-200" },
+];
+
+const FALLBACK_GRADIENTS = [
   "bg-gradient-to-br from-rose-100 to-rose-200",
   "bg-gradient-to-br from-amber-100 to-amber-200",
   "bg-gradient-to-br from-emerald-100 to-emerald-200",
@@ -110,13 +149,34 @@ const PLACEHOLDER_GRADIENTS = [
   "bg-gradient-to-br from-orange-100 to-orange-200",
 ];
 
-function BrandPlaceholder({ label, seed }: { label: string; seed: number }) {
-  const gradient = PLACEHOLDER_GRADIENTS[seed % PLACEHOLDER_GRADIENTS.length];
+function classifyCategory(title: string): { emoji: string; gradient: string } {
+  for (const rule of CATEGORY_RULES) {
+    if (rule.pattern.test(title)) return { emoji: rule.emoji, gradient: rule.gradient };
+  }
+  return { emoji: "🛍️", gradient: "" };
+}
+
+function CategoryPlaceholder({
+  title,
+  brand,
+  seed,
+}: {
+  title: string;
+  brand: string | null;
+  seed: number;
+}) {
+  const { emoji, gradient } = classifyCategory(title);
+  const finalGradient = gradient || FALLBACK_GRADIENTS[seed % FALLBACK_GRADIENTS.length];
   return (
-    <div className={`flex h-full items-center justify-center ${gradient}`}>
-      <div className="flex h-20 w-20 items-center justify-center rounded-full bg-white/90 text-3xl font-bold text-slate-700 shadow-sm ring-1 ring-white/60">
-        {label || "?"}
+    <div className={`relative flex h-full flex-col items-center justify-center ${finalGradient}`}>
+      <div className="text-6xl drop-shadow-sm transition-transform duration-200 group-hover:scale-110">
+        {emoji}
       </div>
+      {brand && (
+        <div className="mt-3 rounded-full bg-white/80 px-3 py-0.5 text-[11px] font-medium uppercase tracking-wide text-slate-700 ring-1 ring-white/60 backdrop-blur-sm">
+          {brand}
+        </div>
+      )}
     </div>
   );
 }
