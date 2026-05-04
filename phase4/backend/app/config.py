@@ -45,6 +45,12 @@ class Settings(BaseSettings):
     # demo with the hashing embedder we raise this in render.yaml so noise
     # candidates don't survive when nothing actually matches the query.
     search_min_similarity: float = 0.0
+    # Top-match gate: if the BEST candidate's cosine is below this, treat
+    # the whole query as "no semantic match" and return empty. Crucial for
+    # weak embedders where every product has some trigram overlap with any
+    # query — without this gate, irrelevant queries return a list ranked
+    # by discount/rating instead of an honest "no results".
+    search_top_match_threshold: float = 0.0
     rank_w_similarity: float = 0.6
     rank_w_discount: float = 0.2
     rank_w_rating: float = 0.2

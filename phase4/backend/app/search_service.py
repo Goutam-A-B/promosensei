@@ -132,6 +132,74 @@ def _max_rating(listings: list[Listing]) -> Decimal | None:
 # ---- Keyword search -------------------------------------------------------
 
 
+_TOKEN_GATE_MIN_LEN = 4
+
+
+def _significant_tokens(text: str) -> list[str]:
+    """Tokens long enough to be discriminative.
+
+    Length >= 4 drops connectives like 'for', 'the', 'and' that match too
+    many products. Normalising trailing 's' lets 'earbuds' match listings
+    titled 'Earbud' and vice versa — a cheap stem that handles English
+    plurals well enough for product search."""
+    out: list[str] = []
+    for raw in (text or "").split():
+        tok = raw.lower().rstrip("s")
+        if len(tok) < _TOKEN_GATE_MIN_LEN:
+            continue
+        out.append(tok)
+    return out
+
+
+def _token_gate_ids(
+    db: Session,
+    *,
+    text: str,
+    platform: str | None,
+) -> set[int] | None:
+    """Loose OR-keyword gate over product titles, brands, and listing titles.
+
+    Used to filter semantic candidates: a query like 'shock absorbing shoes'
+    should not surface unrelated smartwatches just because the hashing
+    embedder gives every product a small non-zero similarity. We require
+    at least one of the discriminative query tokens to appear (substring,
+    case-insensitive) somewhere in the product's title surface.
+
+    Returns:
+        - None if the query has no discriminative tokens (token gate skipped)
+        - empty set if there are tokens but no product matches any of them
+        - non-empty set of eligible product IDs otherwise
+    """
+    tokens = _significant_tokens(text)
+    if not tokens:
+        return None
+
+    stmt: Select = select(Product.id).distinct()
+    if platform:
+        stmt = stmt.join(Listing, Listing.product_id == Product.id).where(
+            Listing.platform == platform
+        )
+
+    or_conds = []
+    for tok in tokens:
+        like = f"%{tok}%"
+        listing_match = (
+            select(Listing.id)
+            .where(Listing.product_id == Product.id, Listing.raw_title.ilike(like))
+            .exists()
+        )
+        or_conds.append(
+            or_(
+                Product.canonical_title.ilike(like),
+                Product.brand.ilike(like),
+                listing_match,
+            )
+        )
+
+    stmt = stmt.where(or_(*or_conds))
+    return set(db.scalars(stmt).all())
+
+
 def _keyword_candidates(
     db: Session,
     *,
@@ -339,6 +407,18 @@ def search(
         top_k=settings.search_top_k,
         min_similarity=settings.search_min_similarity,
     )
+
+    # Token gate: a semantic candidate must share at least one significant
+    # query token (length >= 4 after stripping trailing 's') with the
+    # product. Without this, weak embedders surface unrelated products for
+    # queries like 'shock absorbing shoes' because every product has some
+    # incidental trigram overlap with every query.
+    eligible_ids = _token_gate_ids(db, text=effective_text, platform=platform)
+    if eligible_ids is not None:
+        before = len(semantic_hits)
+        semantic_hits = [(p, sim) for p, sim in semantic_hits if p.id in eligible_ids]
+        if before and not semantic_hits:
+            notes.append("no semantic candidate matched any query keyword")
 
     sim_by_id: dict[int, float] = {p.id: sim for p, sim in semantic_hits}
     candidates_by_id: dict[int, Product] = {p.id: p for p, _ in semantic_hits}
