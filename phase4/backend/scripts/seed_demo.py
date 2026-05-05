@@ -506,6 +506,445 @@ CATALOGUE: list[tuple[str, list[dict]]] = [
     ("realme Buds Air 5 Pro True Wireless Earphones Astral Black", [
         _l("flipkart", "ACCGZREALMEBUDSAIR5", 3999, original=5999, discount=33.34, rating=4.3),
     ]),
+
+    # ---- Men's Clothing ------------------------------------------------
+    ("Allen Solly Men Solid Polo Neck T-Shirt Navy Blue Cotton", [
+        _l("amazon", "B07DFLG2NN", 599, original=1299, discount=53.89, rating=4.3),
+        _l("flipkart", "FOTGZALLENSOLLYPOLO", 549, original=1299, discount=57.74, rating=4.3),
+    ]),
+    ("Roadster Men Pure Cotton Round Neck T-Shirt Olive Green", [
+        _l("flipkart", "FOTGZROADSTERTEE", 399, original=899, discount=55.62, rating=4.2),
+    ]),
+    ("Peter England Men Slim Fit Formal Shirt White Cotton Full Sleeves", [
+        _l("amazon", "B0CGJDDCCN", 999, original=1999, discount=50.03, rating=4.4),
+        _l("flipkart", "FOTGZPETERENGLAND", 949, original=1999, discount=52.53, rating=4.4),
+    ]),
+    ("Van Heusen Men Premium Slim Fit Formal Shirt Light Blue", [
+        _l("amazon", "B07KX7CL82", 1299, original=2499, discount=48.02, rating=4.3),
+    ]),
+    ("Jack & Jones Men Slim Fit Mid-Rise Stretch Jeans Dark Indigo", [
+        _l("amazon", "B0BRFNBM3K", 1999, original=3499, discount=42.87, rating=4.4),
+        _l("flipkart", "FOTGZJACKJONESJEANS", 1899, original=3499, discount=45.73, rating=4.4),
+    ]),
+    ("Wrangler Men Skanders Slim Fit Jeans Stretchable Mid Blue", [
+        _l("amazon", "B07GTCTJG7", 1799, original=2999, discount=40.01, rating=4.3),
+    ]),
+    ("Pepe Jeans Men Slim Fit Mid-Rise Cropped Jeans Black Wash", [
+        _l("flipkart", "FOTGZPEPEJEANS", 1999, original=3499, discount=42.87, rating=4.3),
+    ]),
+    ("U.S. Polo Assn. Men Solid Pure Cotton Round Neck T-Shirt Pack of 3", [
+        _l("amazon", "B0BVVH6PK3", 1499, original=2999, discount=50.02, rating=4.3),
+    ]),
+    ("HRX by Hrithik Roshan Men Active Dryfit Sports T-Shirt Black", [
+        _l("amazon", "B0CKJ8JZ3W", 549, original=999, discount=45.05, rating=4.2),
+        _l("flipkart", "FOTGZHRXTEE", 499, original=999, discount=50.05, rating=4.2),
+    ]),
+    ("Puma Men Essentials Logo Hoodie Cotton Blend Black", [
+        _l("amazon", "B09M3D8V4F", 1599, original=2999, discount=46.68, rating=4.4),
+        _l("flipkart", "FOTGZPUMAHOODIE", 1499, original=2999, discount=50.02, rating=4.4),
+    ]),
+    ("Adidas Men Originals Trefoil Hoodie Cotton Black White", [
+        _l("amazon", "B07BBL5CBZ", 2799, original=3999, discount=30.01, rating=4.5),
+    ]),
+    ("Nike Sportswear Club Fleece Pullover Hoodie Men Charcoal", [
+        _l("amazon", "B07W6QMWG7", 2495, original=3495, discount=28.61, rating=4.5),
+    ]),
+    ("Levi's Men Standard Fit Trucker Denim Jacket Dark Blue", [
+        _l("amazon", "B00R36Y9ZW", 3499, original=5999, discount=41.67, rating=4.4),
+    ]),
+    ("Highlander Men Slim Fit Casual Solid Cotton Shirt Maroon", [
+        _l("flipkart", "FOTGZHIGHLANDER", 549, original=1499, discount=63.38, rating=4.1),
+    ]),
+    ("Jockey Men's Cotton Briefs Pack of 3 Assorted Colours", [
+        _l("amazon", "B074GG7G36", 549, original=695, discount=21.01, rating=4.5),
+        _l("flipkart", "FOTGZJOCKEYBRIEFS", 519, original=695, discount=25.32, rating=4.5),
+    ]),
+    ("Nike Men Dri-FIT Running Shorts 7-inch Black", [
+        _l("amazon", "B07PQHJ4LB", 1495, original=1995, discount=25.06, rating=4.4),
+    ]),
+    ("Adidas Men Track Pants Tiro 23 Slim Fit Black", [
+        _l("flipkart", "FOTGZADIDASTIRO", 1799, original=2999, discount=40.01, rating=4.4),
+    ]),
+
+    # ---- Women's Clothing ----------------------------------------------
+    ("ONLY Women Floral Print A-Line Mini Dress Sleeveless Pink", [
+        _l("amazon", "B0CK1CG2VG", 1299, original=2499, discount=48.02, rating=4.3),
+        _l("flipkart", "FOTGZONLYDRESS", 1199, original=2499, discount=52.02, rating=4.3),
+    ]),
+    ("Vero Moda Women Black Solid Sheath Knee-Length Dress", [
+        _l("amazon", "B0CRT6KQXV", 1499, original=2599, discount=42.32, rating=4.3),
+    ]),
+    ("Biba Women Pink Floral Anarkali Kurta with Dupatta Set", [
+        _l("amazon", "B0CG75WM4B", 1799, original=3299, discount=45.47, rating=4.4),
+        _l("flipkart", "FOTGZBIBAANARKALI", 1699, original=3299, discount=48.50, rating=4.4),
+    ]),
+    ("W for Woman Embroidered Straight Cotton Kurta Mustard Yellow", [
+        _l("amazon", "B0BS7YQHR2", 1299, original=2199, discount=40.93, rating=4.3),
+    ]),
+    ("Libas Women Floral Print Cotton Anarkali Kurta with Trousers", [
+        _l("flipkart", "FOTGZLIBASKURTA", 1499, original=2999, discount=50.02, rating=4.3),
+    ]),
+    ("Mitera Women Pink Banarasi Silk Saree with Zari Border", [
+        _l("flipkart", "FOTGZMITERASAREE", 1299, original=4999, discount=74.01, rating=4.3),
+    ]),
+    ("Janasya Women Yellow Floral Printed Cotton Kurti", [
+        _l("amazon", "B0BHN3W3CW", 599, original=1599, discount=62.54, rating=4.2),
+    ]),
+    ("H&M Women Cotton Cropped T-Shirt White Round Neck", [
+        _l("flipkart", "FOTGZHMTEE", 499, original=799, discount=37.55, rating=4.2),
+    ]),
+    ("Forever 21 Women Boyfriend Fit Distressed Mom Jeans Light Wash", [
+        _l("flipkart", "FOTGZFOREVER21JEANS", 1499, original=2899, discount=48.29, rating=4.2),
+    ]),
+    ("Levi's Women 711 Skinny Jeans Mid-Rise Stretchable Indigo", [
+        _l("amazon", "B07TVDDP62", 2199, original=3999, discount=45.01, rating=4.4),
+    ]),
+    ("Zara Women Oversized Knit Sweater Cream Round Neck", [
+        _l("flipkart", "FOTGZZARASWEATER", 2490, original=3490, discount=28.65, rating=4.4),
+    ]),
+    ("Zivame Women Seamless Wirefree T-Shirt Bra Beige", [
+        _l("amazon", "B09VDSY3R4", 595, original=995, discount=40.20, rating=4.4),
+        _l("nykaa", "BTYZHFGFBHFGZBC1", 549, original=995, discount=44.82, rating=4.4),
+    ]),
+    ("Clovia Women Cotton Mid-Waist Hipster Panties Pack of 3", [
+        _l("amazon", "B0BNTHV9X3", 449, original=999, discount=55.06, rating=4.3),
+    ]),
+    ("ONLY Women Wide-Leg High-Waist Trousers Beige Tailored", [
+        _l("flipkart", "FOTGZONLYTROUSERS", 1599, original=2999, discount=46.68, rating=4.3),
+    ]),
+    ("Anouk Women Printed Co-Ord Set Crop Top with Palazzo", [
+        _l("flipkart", "FOTGZANOUKCOORDS", 1099, original=2499, discount=56.02, rating=4.2),
+    ]),
+
+    # ---- Footwear (Extended) -------------------------------------------
+    ("Crocs Classic Clog Unisex Black Slip-On", [
+        _l("amazon", "B017JG1GE4", 2495, original=3495, discount=28.61, rating=4.6),
+        _l("flipkart", "FOTGZCROCSCLOG", 2395, original=3495, discount=31.47, rating=4.6),
+    ]),
+    ("Bata Men Office Formal Lace-Up Leather Shoes Brown", [
+        _l("amazon", "B07YHRT8X1", 1799, original=2499, discount=28.01, rating=4.3),
+    ]),
+    ("Sparx Men Running Sports Shoes Black Lightweight Mesh", [
+        _l("amazon", "B0CJDB7M9F", 999, original=1899, discount=47.39, rating=4.2),
+        _l("flipkart", "FOTGZSPARXRUN", 949, original=1899, discount=50.03, rating=4.2),
+    ]),
+    ("Skechers Go Walk 6 Men's Walking Shoes Slip-On Black", [
+        _l("amazon", "B0BCD45MRB", 4999, original=6999, discount=28.58, rating=4.6),
+    ]),
+    ("Asics Gel-Excite 10 Men Running Shoes Cushioned Blue", [
+        _l("amazon", "B0BWDVH75M", 4799, original=6499, discount=26.16, rating=4.5),
+    ]),
+    ("Hush Puppies Women Loafers Black Leather Slip-On Casual", [
+        _l("amazon", "B07RMC9R64", 2299, original=3499, discount=34.30, rating=4.3),
+    ]),
+    ("Metro Women Block Heel Sandals Black Open Toe Party Wear", [
+        _l("flipkart", "FOTGZMETROHEELS", 999, original=1999, discount=50.03, rating=4.2),
+    ]),
+    ("Woodland Men's Genuine Leather Outdoor Boots Camel Brown", [
+        _l("amazon", "B07DG39CG5", 3499, original=5495, discount=36.32, rating=4.5),
+    ]),
+
+    # ---- Bags & Luggage ------------------------------------------------
+    ("American Tourister Hugo 32-Inch Polycarbonate Hard Trolley Suitcase", [
+        _l("amazon", "B0BS1SR1PT", 4999, original=10500, discount=52.39, rating=4.5),
+        _l("flipkart", "FOTGZAMTOURISTERTRL", 4799, original=10500, discount=54.30, rating=4.5),
+    ]),
+    ("Skybags Verge Strolly 55cm Polycarbonate Cabin Suitcase Black", [
+        _l("amazon", "B09KGL3T4J", 2999, original=8200, discount=63.43, rating=4.4),
+    ]),
+    ("Wildcraft Voyager Plus 65L Rucksack Backpack Trekking", [
+        _l("amazon", "B07VPV81Y6", 2499, original=3999, discount=37.51, rating=4.5),
+    ]),
+    ("Caprese Women Mini Bea Tote Handbag PU Leather Pink", [
+        _l("amazon", "B0CW1HT7HF", 1349, original=2495, discount=45.93, rating=4.3),
+        _l("flipkart", "FOTGZCAPRESETOTE", 1299, original=2495, discount=47.94, rating=4.3),
+    ]),
+    ("Lavie Women Leather Crossbody Sling Bag Tan", [
+        _l("amazon", "B0BLZ1KH8M", 1599, original=2999, discount=46.68, rating=4.3),
+    ]),
+    ("Tommy Hilfiger Men Leather Bifold Wallet Brown", [
+        _l("amazon", "B07R6NXLQR", 1799, original=2499, discount=28.01, rating=4.5),
+    ]),
+
+    # ---- Trending Electronics ------------------------------------------
+    ("DJI Mini 4 Pro Camera Drone with RC 2 Remote 4K HDR Video", [
+        _l("amazon", "B0CGV35BFM", 95900, original=99900, discount=4.00, rating=4.7),
+    ]),
+    ("DJI Osmo Pocket 3 Creator Combo 4K Vlog Camera", [
+        _l("amazon", "B0CHX5WFMW", 71900, original=74900, discount=4.01, rating=4.7),
+    ]),
+    ("Insta360 X3 360 Action Camera 5.7K Waterproof", [
+        _l("amazon", "B0BFZHHQH9", 39990, original=49990, discount=20.00, rating=4.6),
+    ]),
+    ("Apple Vision Pro Successor Mixed Reality Headset 256GB", [
+        _l("amazon", "B0CSHH2X6F", 339900, original=339900, rating=4.4),
+    ]),
+    ("Meta Quest 3 128GB All-in-One VR Headset", [
+        _l("amazon", "B0CCMG2TR8", 49990, original=53990, discount=7.41, rating=4.6),
+    ]),
+    ("Anker Soundcore Liberty 4 NC Wireless Earbuds Active Noise Cancellation", [
+        _l("amazon", "B0CC8YV1BS", 7999, original=9999, discount=20.00, rating=4.5),
+        _l("flipkart", "ACCGZSOUNDCORE4NC", 7799, original=9999, discount=22.00, rating=4.5),
+    ]),
+    ("Bose SoundLink Flex Bluetooth Portable Speaker Stone Blue", [
+        _l("amazon", "B09GXR4P9F", 14900, original=17900, discount=16.76, rating=4.7),
+    ]),
+    ("Apple Pencil USB-C 2nd Generation for iPad", [
+        _l("amazon", "B0CG65Z3JH", 8999, original=8999, rating=4.7),
+    ]),
+    ("Logitech MX Anywhere 3S Wireless Compact Mouse Pale Grey", [
+        _l("amazon", "B0CGN8KBYZ", 7995, original=8995, discount=11.12, rating=4.6),
+    ]),
+    ("Razer BlackWidow V4 Pro Mechanical Gaming Keyboard RGB", [
+        _l("amazon", "B0BS6WZP92", 24999, original=29999, discount=16.67, rating=4.5),
+    ]),
+    ("ASUS ROG Strix G16 Gaming Laptop Intel i7 14th Gen RTX 4060", [
+        _l("amazon", "B0CWPFCBLW", 134990, original=159990, discount=15.63, rating=4.5),
+        _l("flipkart", "COMGZASUSROGSTRIX", 132990, original=159990, discount=16.88, rating=4.5),
+    ]),
+    ("Acer Predator Helios Neo 16 RTX 4070 Gaming Laptop i7-13700HX", [
+        _l("amazon", "B0CSGSZSPX", 149990, original=174990, discount=14.29, rating=4.4),
+    ]),
+    ("Apple MacBook Pro 14-inch M3 Pro Chip 18GB / 512GB Space Black", [
+        _l("amazon", "B0CM5HC3F4", 199900, original=229900, discount=13.05, rating=4.8),
+        _l("flipkart", "COMGZMACBOOKPROM3", 197900, original=229900, discount=13.92, rating=4.8),
+    ]),
+    ("LG UltraGear 27-inch QHD Nano IPS 240Hz Gaming Monitor 27GP850", [
+        _l("amazon", "B095RJ9NQR", 35990, original=49999, discount=28.02, rating=4.6),
+    ]),
+    ("Sony Bravia 65-inch 4K Ultra HD Smart Google TV X80L Series", [
+        _l("amazon", "B0CCRLY7NB", 79990, original=109900, discount=27.22, rating=4.5),
+        _l("flipkart", "TVSGZSONYBRAVIA65", 78990, original=109900, discount=28.13, rating=4.5),
+    ]),
+    ("Samsung Neo QLED 55-inch 4K Smart TV QN90D Quantum HDR+", [
+        _l("amazon", "B0D2CXMC86", 149990, original=199900, discount=24.97, rating=4.6),
+    ]),
+    ("Amazon Echo Dot 5th Gen Smart Speaker with Alexa Charcoal", [
+        _l("amazon", "B09B8Z7JNJ", 4499, original=5499, discount=18.18, rating=4.4),
+    ]),
+    ("Google Nest Hub 2nd Gen 7-inch Smart Display Charcoal", [
+        _l("amazon", "B08LSQ49DB", 7999, original=9999, discount=20.00, rating=4.5),
+    ]),
+    ("Apple HomePod Mini Smart Speaker Space Gray", [
+        _l("amazon", "B08PV6L8GX", 9900, original=10900, discount=9.17, rating=4.5),
+    ]),
+    ("Mi 360 Home Security Camera 2K Pro Wi-Fi Indoor", [
+        _l("amazon", "B09VKVNB9G", 3499, original=4999, discount=30.01, rating=4.3),
+    ]),
+
+    # ---- More Phones (Trending) ----------------------------------------
+    ("Samsung Galaxy S24 5G (256 GB) Onyx Black", [
+        _l("amazon", "B0CSL31WK4", 79999, original=89999, discount=11.11, rating=4.6),
+        _l("flipkart", "MOBGZSAMSUNGS24", 78999, original=89999, discount=12.22, rating=4.5),
+    ]),
+    ("Samsung Galaxy Z Flip 5 5G (256 GB) Mint", [
+        _l("amazon", "B0C6F1SCSR", 89999, original=109999, discount=18.18, rating=4.4),
+    ]),
+    ("Samsung Galaxy Z Fold 5 5G (512 GB) Phantom Black", [
+        _l("amazon", "B0C6F1Y8MZ", 154999, original=174999, discount=11.43, rating=4.5),
+    ]),
+    ("OnePlus 12 5G (16 GB / 256 GB) Silky Black", [
+        _l("amazon", "B0CSGNRDPK", 64999, original=69999, discount=7.14, rating=4.5),
+    ]),
+    ("Xiaomi 14 5G (256 GB) Jade Green", [
+        _l("flipkart", "MOBGZXIAOMI14", 54999, original=69999, discount=21.43, rating=4.4),
+    ]),
+    ("Apple iPhone 14 (128 GB) Midnight", [
+        _l("amazon", "B0BDJ7C6GP", 56999, original=69900, discount=18.46, rating=4.6),
+        _l("flipkart", "MOBGZIPHONE14", 55999, original=69900, discount=19.89, rating=4.6),
+    ]),
+    ("Apple iPhone 13 (128 GB) Starlight", [
+        _l("amazon", "B09G99CW2N", 47999, original=59900, discount=19.89, rating=4.7),
+    ]),
+    ("Motorola Edge 50 Pro 5G (256 GB) Vegan Leather Caneel Bay", [
+        _l("amazon", "B0CW2XJWBL", 27999, original=33999, discount=17.65, rating=4.3),
+    ]),
+    ("Honor X9b 5G (256 GB) Midnight Black 108MP Camera", [
+        _l("flipkart", "MOBGZHONORX9B", 22999, original=27999, discount=17.86, rating=4.3),
+    ]),
+
+    # ---- Watches (Luxury / Casual) -------------------------------------
+    ("Casio Edifice Men's Chronograph Stainless Steel Watch", [
+        _l("amazon", "B07PB4GTLV", 8995, original=12995, discount=30.78, rating=4.5),
+    ]),
+    ("Titan Raga Women's Analog Rose Gold Tone Watch", [
+        _l("amazon", "B098KFXC93", 4995, original=6995, discount=28.59, rating=4.4),
+        _l("flipkart", "ACCGZTITANRAGA", 4795, original=6995, discount=31.45, rating=4.4),
+    ]),
+    ("Fossil Men The Carlyle Chronograph Black Stainless Steel Watch", [
+        _l("amazon", "B07PRKJ6FB", 12995, original=18495, discount=29.74, rating=4.6),
+    ]),
+    ("Daniel Wellington Classic Petite Melrose Women's Rose Gold Watch", [
+        _l("nykaa", "BTYZHFGFBHFGZBD1", 9999, original=14500, discount=31.04, rating=4.5),
+    ]),
+    ("Garmin Forerunner 265 GPS Running Smartwatch with AMOLED Display", [
+        _l("amazon", "B0BVPHMHCT", 41990, original=49990, discount=16.00, rating=4.7),
+    ]),
+
+    # ---- Kitchen + Home Extended ---------------------------------------
+    ("Instant Pot Duo 7-in-1 Electric Pressure Cooker 5.7L", [
+        _l("amazon", "B084VPK69M", 8499, original=12999, discount=34.65, rating=4.6),
+    ]),
+    ("Crompton Ameo Neo Geyser 25L Storage Water Heater", [
+        _l("amazon", "B07Z6V35FH", 8499, original=14999, discount=43.34, rating=4.4),
+    ]),
+    ("Havells Magnetron 25L Convection Microwave Oven Black", [
+        _l("amazon", "B07Y5QFDS5", 11990, original=18995, discount=36.88, rating=4.3),
+        _l("flipkart", "HOMGZHAVELLSMW", 11490, original=18995, discount=39.51, rating=4.3),
+    ]),
+    ("Borosil Vision Glass Set of 6 Tumblers 350ml", [
+        _l("amazon", "B07KLKYDH3", 545, original=940, discount=42.02, rating=4.5),
+    ]),
+    ("Milton Thermosteel Flip Lid Flask 1000ml Stainless Steel", [
+        _l("amazon", "B00BYW6HMC", 695, original=1295, discount=46.33, rating=4.5),
+    ]),
+    ("Cello H2O Plastic Water Bottle Set of 6 1L Each Assorted", [
+        _l("amazon", "B07JK4RSMJ", 549, original=900, discount=39.00, rating=4.4),
+    ]),
+    ("Prestige Omega Deluxe Granite Non-Stick Cookware Set 4-Piece", [
+        _l("amazon", "B07X2N4Z3T", 2999, original=4995, discount=39.96, rating=4.3),
+    ]),
+    ("Hawkins Contura Hard Anodised Pressure Cooker 3 Litre", [
+        _l("amazon", "B005O72UM6", 1995, original=2630, discount=24.14, rating=4.6),
+    ]),
+    ("Dyson V12 Detect Slim Cordless Vacuum Cleaner Yellow", [
+        _l("amazon", "B0CQGBJSCP", 49900, original=54900, discount=9.11, rating=4.5),
+    ]),
+
+    # ---- More Beauty (Luxury & Indie) ----------------------------------
+    ("Estée Lauder Advanced Night Repair Synchronized Multi-Recovery Complex 50 ml", [
+        _l("nykaa", "BTYZHFGFBHFGZBD2", 7900, original=8400, discount=5.95, rating=4.7),
+    ]),
+    ("MAC Studio Fix Fluid Foundation SPF 15 NC42 30 ml", [
+        _l("nykaa", "BTYZHFGFBHFGZBD3", 3300, original=3300, rating=4.6),
+    ]),
+    ("Charlotte Tilbury Pillow Talk Lipstick Original 3.5g", [
+        _l("nykaa", "BTYZHFGFBHFGZBD4", 3450, original=3450, rating=4.7),
+    ]),
+    ("Huda Beauty Faux Filler Extra Shine Lip Gloss Honey Talks", [
+        _l("nykaa", "BTYZHFGFBHFGZBD5", 1990, original=2200, discount=9.55, rating=4.5),
+    ]),
+    ("NARS Radiant Creamy Concealer Custard 6 ml", [
+        _l("nykaa", "BTYZHFGFBHFGZBD6", 2950, original=2950, rating=4.6),
+    ]),
+    ("Innisfree Green Tea Hyaluronic Serum Hydrating 80 ml", [
+        _l("nykaa", "BTYZHFGFBHFGZBD7", 1500, original=1850, discount=18.92, rating=4.5),
+        _l("amazon", "B07RWLG6MZ", 1599, original=1850, discount=13.57, rating=4.4),
+    ]),
+    ("The Body Shop Vitamin E Moisture Cream 50 ml", [
+        _l("nykaa", "BTYZHFGFBHFGZBD8", 1295, original=1395, discount=7.17, rating=4.5),
+    ]),
+    ("Forest Essentials Soundarya Radiance Cream Anti-Aging 50 g", [
+        _l("nykaa", "BTYZHFGFBHFGZBD9", 4500, original=4500, rating=4.6),
+    ]),
+    ("Kama Ayurveda Kumkumadi Miraculous Beauty Fluid 25 ml", [
+        _l("nykaa", "BTYZHFGFBHFGZBE1", 3895, original=3895, rating=4.5),
+    ]),
+    ("Sugar Cosmetics Ace of Face Foundation Stick Cocoa Loco", [
+        _l("nykaa", "BTYZHFGFBHFGZBE2", 999, original=1299, discount=23.10, rating=4.4),
+    ]),
+
+    # ---- More Fragrance ------------------------------------------------
+    ("Dior Sauvage Eau de Parfum for Men 100 ml", [
+        _l("nykaa", "BTYZHFGFBHFGZBE3", 11900, original=11900, rating=4.8),
+    ]),
+    ("Chanel Coco Mademoiselle Eau de Parfum for Women 100 ml", [
+        _l("nykaa", "BTYZHFGFBHFGZBE4", 14400, original=14400, rating=4.8),
+    ]),
+    ("Yves Saint Laurent Black Opium Eau de Parfum 90 ml", [
+        _l("nykaa", "BTYZHFGFBHFGZBE5", 10500, original=11500, discount=8.70, rating=4.7),
+    ]),
+    ("Tom Ford Black Orchid Eau de Parfum Unisex 50 ml", [
+        _l("nykaa", "BTYZHFGFBHFGZBE6", 14600, original=14600, rating=4.7),
+    ]),
+    ("Beardo Whisky Smoke Perfume for Men 100 ml", [
+        _l("amazon", "B083T3MN98", 599, original=999, discount=40.04, rating=4.3),
+    ]),
+
+    # ---- Books (Extended) ----------------------------------------------
+    ("The Alchemist by Paulo Coelho 25th Anniversary Edition", [
+        _l("amazon", "0062315005", 350, original=499, discount=29.86, rating=4.6),
+        _l("flipkart", "BKSGZTHEALCHEMIST", 320, original=499, discount=35.87, rating=4.6),
+    ]),
+    ("Think and Grow Rich by Napoleon Hill", [
+        _l("amazon", "8189297937", 175, original=299, discount=41.47, rating=4.6),
+    ]),
+    ("Wings of Fire An Autobiography by A.P.J. Abdul Kalam", [
+        _l("amazon", "8173711461", 199, original=295, discount=32.54, rating=4.7),
+    ]),
+    ("The 7 Habits of Highly Effective People by Stephen R. Covey", [
+        _l("amazon", "1471195201", 379, original=499, discount=24.05, rating=4.7),
+    ]),
+    ("The Subtle Art of Not Giving a F*ck by Mark Manson", [
+        _l("amazon", "0062457713", 299, original=499, discount=40.08, rating=4.5),
+        _l("flipkart", "BKSGZSUBTLEART", 285, original=499, discount=42.89, rating=4.5),
+    ]),
+    ("A Brief History of Time by Stephen Hawking", [
+        _l("amazon", "0553380168", 449, original=599, discount=25.04, rating=4.7),
+    ]),
+    ("The Power of Your Subconscious Mind by Joseph Murphy", [
+        _l("amazon", "812221150X", 99, original=199, discount=50.25, rating=4.6),
+    ]),
+
+    # ---- Sports + Outdoors (Extended) ----------------------------------
+    ("Decathlon Quechua MH100 30L Hiking Backpack Black", [
+        _l("amazon", "B07RZBT9G2", 999, original=1499, discount=33.36, rating=4.4),
+    ]),
+    ("Yonex Astrox 88D Pro Badminton Racket Strung", [
+        _l("amazon", "B0894KKWX1", 16990, original=21500, discount=20.98, rating=4.7),
+    ]),
+    ("Spalding NBA Indoor/Outdoor Basketball Size 7", [
+        _l("amazon", "B07P9X1HKQ", 1899, original=2499, discount=24.01, rating=4.5),
+    ]),
+    ("Wilson US Open Junior Tennis Racket 25-inch", [
+        _l("amazon", "B07VQNFY3M", 1799, original=2495, discount=27.90, rating=4.4),
+    ]),
+    ("Pro Spin Premium Table Tennis Bat with 2 Balls Carry Case", [
+        _l("amazon", "B0BWPRZX5Y", 999, original=1799, discount=44.47, rating=4.3),
+    ]),
+    ("Boldfit Sports Skipping Rope with Counter Adjustable", [
+        _l("amazon", "B07NBC4G86", 199, original=499, discount=60.12, rating=4.3),
+    ]),
+    ("Reebok Yoga Mat 4mm Non-Slip Pink Carry Strap Included", [
+        _l("amazon", "B07L6XFRW1", 1499, original=2799, discount=46.45, rating=4.4),
+    ]),
+
+    # ---- Toys & Kids ---------------------------------------------------
+    ("LEGO Classic Creative Bricks Box 484-Piece Set", [
+        _l("amazon", "B00NHQF6MG", 1899, original=2499, discount=24.01, rating=4.7),
+        _l("flipkart", "TOYGZLEGOBRICKS", 1799, original=2499, discount=28.01, rating=4.7),
+    ]),
+    ("Hot Wheels 20-Car Gift Pack Assorted Diecast Vehicles", [
+        _l("amazon", "B07HWPFQ44", 1395, original=1799, discount=22.46, rating=4.6),
+    ]),
+    ("Funskool Monopoly Original Strategy Family Board Game", [
+        _l("amazon", "B07R5JQR5T", 599, original=999, discount=40.04, rating=4.5),
+    ]),
+
+    # ---- Pet Supplies --------------------------------------------------
+    ("Pedigree Adult Dry Dog Food Chicken & Vegetables 3 kg", [
+        _l("amazon", "B07DRWNX1M", 695, original=895, discount=22.35, rating=4.5),
+    ]),
+    ("Whiskas Adult Cat Food Tuna Flavour 1.2 kg", [
+        _l("amazon", "B07DRWWQXP", 549, original=695, discount=21.01, rating=4.5),
+    ]),
+
+    # ---- Health / Personal Care ----------------------------------------
+    ("Oral-B Pro 1000 Electric Rechargeable Toothbrush Black", [
+        _l("amazon", "B07HSWGD4P", 4499, original=6995, discount=35.68, rating=4.5),
+    ]),
+    ("Philips Sonicare DiamondClean Smart 9700 Sonic Toothbrush", [
+        _l("amazon", "B083X6V2S2", 22995, original=27995, discount=17.86, rating=4.6),
+    ]),
+    ("Himalaya Wellness Pure Herbs Ashwagandha General Wellness 60 Tablets", [
+        _l("amazon", "B0CFWYKKKN", 175, original=210, discount=16.67, rating=4.4),
+    ]),
+    ("Optimum Nutrition Gold Standard 100% Whey Protein Powder Vanilla 2 lb", [
+        _l("amazon", "B0CBT8H8Y7", 4699, original=6299, discount=25.40, rating=4.6),
+    ]),
+    ("MuscleBlaze Biozyme Performance Whey 4.4 lb Chocolate", [
+        _l("amazon", "B07Y6RNGN7", 6999, original=9499, discount=26.32, rating=4.5),
+    ]),
 ]
 
 

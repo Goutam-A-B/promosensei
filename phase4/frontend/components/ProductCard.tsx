@@ -12,22 +12,30 @@ const PLATFORM_LABEL: Record<string, string> = {
   nykaa: "Nykaa"
 };
 
+// Per-platform colour scheme, picked to read like the real brand
+// without copying logos. Each platform gets a tinted left-border so
+// the rows are scannable at a glance.
+const PLATFORM_STYLE: Record<string, { dot: string; border: string }> = {
+  amazon: { dot: "bg-orange-500", border: "border-l-orange-500" },
+  flipkart: { dot: "bg-blue-500", border: "border-l-blue-500" },
+  nykaa: { dot: "bg-pink-500", border: "border-l-pink-500" }
+};
+
 export default function ProductCard({ product, showSimilarity = false }: Props) {
-  const best = product.listings.find((l) => l.platform === product.best_platform) ?? product.listings[0];
+  const best =
+    product.listings.find((l) => l.platform === product.best_platform) ?? product.listings[0];
   const bestDiscount = best?.discount ? Math.round(Number(best.discount)) : null;
   const similarityPct =
     showSimilarity && product.similarity > 0 ? Math.round(product.similarity * 100) : null;
 
-  const otherListings = product.listings.filter((l) => l !== best);
+  // Sort cheapest-first so the "BEST" pill is at the top of the platform list.
+  const sortedListings = [...product.listings].sort(
+    (a, b) => Number(a.price) - Number(b.price)
+  );
 
   return (
     <article className="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-0.5 hover:shadow-md">
-      <a
-        href={best?.url}
-        target="_blank"
-        rel="noopener noreferrer nofollow"
-        className="relative block aspect-square w-full overflow-hidden bg-slate-100"
-      >
+      <div className="relative aspect-square w-full overflow-hidden bg-slate-100">
         {product.primary_image_url ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -44,21 +52,23 @@ export default function ProductCard({ product, showSimilarity = false }: Props) 
           />
         )}
         {bestDiscount !== null && bestDiscount > 0 && (
-          <span className="absolute left-2 top-2 rounded-full bg-emerald-600 px-2 py-0.5 text-xs font-semibold text-white">
+          <span className="absolute left-2 top-2 rounded-full bg-emerald-600 px-2 py-0.5 text-xs font-semibold text-white shadow">
             {bestDiscount}% off
           </span>
         )}
         {product.platform_count > 1 && (
-          <span className="absolute right-2 top-2 rounded-full bg-slate-900/85 px-2 py-0.5 text-xs font-semibold text-white">
-            {product.platform_count} platforms
+          <span className="absolute right-2 top-2 rounded-full bg-slate-900/85 px-2 py-0.5 text-xs font-semibold text-white shadow">
+            on {product.platform_count} platforms
           </span>
         )}
-      </a>
+      </div>
 
       <div className="flex flex-1 flex-col gap-2 p-3">
         <div className="flex items-baseline justify-between gap-2">
           {product.brand && (
-            <span className="text-xs uppercase tracking-wide text-slate-500">{product.brand}</span>
+            <span className="text-xs uppercase tracking-wide text-slate-500">
+              {product.brand}
+            </span>
           )}
           {similarityPct !== null && (
             <span
@@ -74,23 +84,59 @@ export default function ProductCard({ product, showSimilarity = false }: Props) 
           {product.canonical_title}
         </h3>
 
-        <div className="flex items-baseline gap-2">
-          <span className="text-base font-semibold">{formatPrice(product.best_price)}</span>
-          <span className="text-xs text-slate-500">
-            on {PLATFORM_LABEL[product.best_platform] ?? product.best_platform}
-          </span>
-          {best?.rating && <span className="ml-auto text-xs text-slate-500">★ {Number(best.rating).toFixed(1)}</span>}
+        {/* Per-platform price ladder: each row is its own link to that
+            platform's product/search page. The cheapest listing carries a
+            BEST pill. This is the user-facing answer to "I see two
+            platforms — let me pick which to open." */}
+        <div className="mt-1 flex flex-col gap-1.5">
+          {sortedListings.map((l, idx) => (
+            <PlatformLink
+              key={l.id}
+              listing={l}
+              isBest={idx === 0 && sortedListings.length > 1}
+            />
+          ))}
         </div>
-
-        {otherListings.length > 0 && (
-          <ul className="mt-1 flex flex-col gap-1 border-t border-dashed border-slate-200 pt-2 text-xs">
-            {otherListings.map((l) => (
-              <PlatformRow key={l.id} listing={l} />
-            ))}
-          </ul>
-        )}
       </div>
     </article>
+  );
+}
+
+function PlatformLink({ listing, isBest }: { listing: Listing; isBest: boolean }) {
+  const label = PLATFORM_LABEL[listing.platform] ?? listing.platform;
+  const style = PLATFORM_STYLE[listing.platform] ?? {
+    dot: "bg-slate-400",
+    border: "border-l-slate-400"
+  };
+  return (
+    <a
+      href={listing.url}
+      target="_blank"
+      rel="noopener noreferrer nofollow"
+      className={`group/link flex items-center justify-between gap-2 rounded-lg border border-slate-200 border-l-4 ${style.border} bg-slate-50 px-3 py-2 text-sm transition hover:border-slate-300 hover:bg-white hover:shadow-sm`}
+    >
+      <span className="flex items-center gap-2">
+        <span className={`h-2 w-2 rounded-full ${style.dot}`} aria-hidden />
+        <span className="font-medium text-slate-800">{label}</span>
+        {isBest && (
+          <span className="rounded-full bg-emerald-100 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-emerald-700 ring-1 ring-emerald-200">
+            best
+          </span>
+        )}
+        {listing.rating && (
+          <span className="text-xs text-slate-500">★ {Number(listing.rating).toFixed(1)}</span>
+        )}
+      </span>
+      <span className="flex items-center gap-1.5">
+        <span className="font-semibold text-slate-900">{formatPrice(listing.price)}</span>
+        <span
+          className="text-slate-400 transition group-hover/link:translate-x-0.5 group-hover/link:text-slate-700"
+          aria-hidden
+        >
+          →
+        </span>
+      </span>
+    </a>
   );
 }
 
@@ -105,7 +151,9 @@ const CATEGORY_RULES: Array<{ pattern: RegExp; emoji: string; gradient: string }
   // Audio
   { pattern: /headphone|headset|earbud|airpod|airdopes|buds|speaker/i, emoji: "🎧", gradient: "bg-gradient-to-br from-violet-100 to-indigo-200" },
   // Phones
-  { pattern: /iphone|galaxy s|pixel|oneplus|redmi|vivo|oppo|realme|smartphone|mobile/i, emoji: "📱", gradient: "bg-gradient-to-br from-sky-100 to-blue-200" },
+  { pattern: /iphone|galaxy s|pixel|oneplus|redmi|vivo|oppo|realme|smartphone|mobile|nothing phone/i, emoji: "📱", gradient: "bg-gradient-to-br from-sky-100 to-blue-200" },
+  // Tablets
+  { pattern: /ipad|galaxy tab|tablet/i, emoji: "📱", gradient: "bg-gradient-to-br from-indigo-100 to-blue-200" },
   // Laptops / PCs
   { pattern: /laptop|macbook|ideapad|inspiron|pavilion|notebook|chromebook/i, emoji: "💻", gradient: "bg-gradient-to-br from-slate-100 to-zinc-200" },
   // Peripherals
@@ -113,7 +161,7 @@ const CATEGORY_RULES: Array<{ pattern: RegExp; emoji: string; gradient: string }
   // Wearables
   { pattern: /watch|smartwatch|band|fitness tracker/i, emoji: "⌚", gradient: "bg-gradient-to-br from-amber-100 to-orange-200" },
   // Home / Kitchen
-  { pattern: /air fryer|microwave|refrigerator|washing machine|vacuum|robot vacuum|kettle|toaster|blender|mixer/i, emoji: "🏠", gradient: "bg-gradient-to-br from-teal-100 to-emerald-200" },
+  { pattern: /air fryer|microwave|refrigerator|washing machine|vacuum|robot vacuum|kettle|toaster|blender|mixer|grinder|oven/i, emoji: "🏠", gradient: "bg-gradient-to-br from-teal-100 to-emerald-200" },
   // TV
   { pattern: /\btv\b|television|smart tv|qled|oled\b/i, emoji: "📺", gradient: "bg-gradient-to-br from-cyan-100 to-sky-200" },
   // Gaming
@@ -121,21 +169,27 @@ const CATEGORY_RULES: Array<{ pattern: RegExp; emoji: string; gradient: string }
   // Cameras
   { pattern: /camera|gopro|dslr|mirrorless|lens/i, emoji: "📷", gradient: "bg-gradient-to-br from-zinc-100 to-slate-200" },
   // Books
-  { pattern: /book|hardcover|paperback|by [A-Z]/, emoji: "📚", gradient: "bg-gradient-to-br from-orange-100 to-rose-200" },
+  { pattern: /book|hardcover|paperback|\bby [A-Z]/, emoji: "📚", gradient: "bg-gradient-to-br from-orange-100 to-rose-200" },
   // Footwear
   { pattern: /shoe|sneaker|sandal|loafer|boot|footwear/i, emoji: "👟", gradient: "bg-gradient-to-br from-lime-100 to-green-200" },
   // Sports
-  { pattern: /yoga|dumbbell|gym|sports|cricket|football|shuttle|racquet/i, emoji: "🏋️", gradient: "bg-gradient-to-br from-emerald-100 to-teal-200" },
+  { pattern: /yoga|dumbbell|gym|cricket|football|shuttle|racquet|fitness band|exercise/i, emoji: "🏋️", gradient: "bg-gradient-to-br from-emerald-100 to-teal-200" },
   // Skincare
-  { pattern: /cleanser|moisturi[sz]|serum|toner|sunscreen|face wash|cream/i, emoji: "🧴", gradient: "bg-gradient-to-br from-emerald-100 to-cyan-200" },
+  { pattern: /cleanser|moisturi[sz]|serum|toner|sunscreen|face wash|cream|spf/i, emoji: "🧴", gradient: "bg-gradient-to-br from-emerald-100 to-cyan-200" },
   // Makeup
-  { pattern: /lipstick|foundation|kajal|eyeliner|mascara|blush|primer/i, emoji: "💄", gradient: "bg-gradient-to-br from-pink-100 to-rose-200" },
+  { pattern: /lipstick|foundation|kajal|eyeliner|mascara|blush|primer|nail polish/i, emoji: "💄", gradient: "bg-gradient-to-br from-pink-100 to-rose-200" },
   // Haircare
-  { pattern: /shampoo|conditioner|hair oil|hair dryer/i, emoji: "💇", gradient: "bg-gradient-to-br from-amber-100 to-yellow-200" },
+  { pattern: /shampoo|conditioner|hair oil|hair dryer|hair colour|hair color/i, emoji: "💇", gradient: "bg-gradient-to-br from-amber-100 to-yellow-200" },
   // Perfume
-  { pattern: /perfume|fragrance|cologne|eau de/i, emoji: "🌸", gradient: "bg-gradient-to-br from-rose-100 to-fuchsia-200" },
+  { pattern: /perfume|fragrance|cologne|eau de|deodorant/i, emoji: "🌸", gradient: "bg-gradient-to-br from-rose-100 to-fuchsia-200" },
+  // Clothing
+  { pattern: /t-shirt|tshirt|shirt|jeans|trouser|kurta|saree|dress\b|hoodie|jacket|sweater|kurti|leggings|polo|innerwear|shorts/i, emoji: "👕", gradient: "bg-gradient-to-br from-rose-100 to-pink-200" },
+  // Bags
+  { pattern: /backpack|handbag|wallet|luggage|trolley|duffle/i, emoji: "🎒", gradient: "bg-gradient-to-br from-amber-100 to-orange-200" },
   // Stationery
   { pattern: /pen\b|notebook|stationery|diary/i, emoji: "✒️", gradient: "bg-gradient-to-br from-stone-100 to-amber-200" },
+  // Drones
+  { pattern: /drone|quadcopter/i, emoji: "🚁", gradient: "bg-gradient-to-br from-sky-100 to-cyan-200" },
 ];
 
 const FALLBACK_GRADIENTS = [
@@ -178,22 +232,5 @@ function CategoryPlaceholder({
         </div>
       )}
     </div>
-  );
-}
-
-function PlatformRow({ listing }: { listing: Listing }) {
-  const label = PLATFORM_LABEL[listing.platform] ?? listing.platform;
-  return (
-    <li>
-      <a
-        href={listing.url}
-        target="_blank"
-        rel="noopener noreferrer nofollow"
-        className="flex items-center justify-between gap-2 text-slate-600 hover:text-accent"
-      >
-        <span className="rounded-full bg-slate-100 px-2 py-0.5 capitalize text-slate-700">{label}</span>
-        <span className="font-medium">{formatPrice(listing.price)}</span>
-      </a>
-    </li>
   );
 }
