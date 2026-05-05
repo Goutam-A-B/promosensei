@@ -1,6 +1,12 @@
+import logging
 from functools import lru_cache
 
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+logger = logging.getLogger(__name__)
+
+_VALID_SEARCH_MODES = {"keyword", "semantic", "hybrid"}
 
 
 class Settings(BaseSettings):
@@ -92,6 +98,21 @@ class Settings(BaseSettings):
     # When swapping to `sentence-transformers`, bump both upwards.
     eval_min_ndcg_at_5: float = 0.8
     eval_min_precision_at_3: float = 0.4
+
+
+    @field_validator("search_default_mode", mode="before")
+    @classmethod
+    def _normalise_search_mode(cls, value: object) -> str:
+        """Guard against operators putting the wrong value into
+        SEARCH_DEFAULT_MODE — the FastAPI Query default is validated
+        against this, so a bad value 422s every default-mode request."""
+        candidate = str(value).strip().lower() if value is not None else ""
+        if candidate not in _VALID_SEARCH_MODES:
+            logger.warning(
+                "Invalid search_default_mode=%r — falling back to 'hybrid'", value,
+            )
+            return "hybrid"
+        return candidate
 
 
 @lru_cache
