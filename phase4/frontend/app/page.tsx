@@ -985,60 +985,41 @@ function FeaturedDeal({
     showSimilarity && product.similarity > 0
       ? Math.round(product.similarity * 100)
       : null;
-  const accent =
-    best ? PLATFORM_ACCENT[best.platform] ?? PLATFORM_ACCENT.amazon : PLATFORM_ACCENT.amazon;
 
   return (
-    <section className="relative overflow-hidden rounded-[28px] p-px shadow-[0_30px_80px_-30px_rgba(79,70,229,0.6)]">
-      <div className="border-gradient-pan absolute inset-0 -z-0 rounded-[28px]" aria-hidden />
-      <div className="relative grid grid-cols-1 gap-0 rounded-[27px] bg-[#100B1A] md:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)]">
-        <div className="dotted-surface relative flex aspect-[4/3] items-center justify-center bg-gradient-to-br from-[#1A1230] to-[#0F0A1F] md:aspect-auto">
+    <section className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-md shadow-[0_18px_40px_-25px_rgba(79,70,229,0.5)]">
+      <div className="relative grid grid-cols-1 gap-0 md:grid-cols-[minmax(0,180px)_minmax(0,1fr)]">
+        <div className="dotted-surface relative flex h-40 items-center justify-center bg-gradient-to-br from-[#1B1F28] to-[#13161D] md:h-full">
           {product.primary_image_url ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={product.primary_image_url}
               alt={product.canonical_title}
               loading="lazy"
-              className="max-h-[70%] max-w-[70%] object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)]"
+              className="max-h-[80%] max-w-[80%] object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.5)]"
             />
           ) : (
             <CategoryPlaceholder
               title={product.canonical_title}
               brand={product.brand}
               seed={product.id}
-              big
             />
           )}
 
-          <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full border border-indigo-400/40 bg-indigo-500/15 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-indigo-200 backdrop-blur">
-            <SparkleIcon className="h-3 w-3" />
-            Featured
+          <span className="absolute left-2 top-2 inline-flex items-center gap-1 rounded-full bg-amber-500/20 border border-amber-400/40 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-amber-200 backdrop-blur">
+            🔥 Trending
           </span>
           {bestDiscount !== null && bestDiscount > 0 && (
-            <span className="badge-pulse absolute right-4 top-4 inline-flex items-center rounded-full bg-emerald-500 px-3.5 py-1.5 text-sm font-bold text-white shadow-[0_0_30px_-5px_rgba(16,185,129,0.7)]">
-              -{bestDiscount}% OFF
+            <span className="absolute right-2 top-2 inline-flex items-center rounded-full bg-emerald-500 px-2 py-0.5 text-[11px] font-bold text-white">
+              -{bestDiscount}%
             </span>
           )}
-          <button
-            type="button"
-            onClick={onToggleSave}
-            aria-label={isSaved ? "Unsave" : "Save"}
-            aria-pressed={isSaved}
-            className={
-              "absolute bottom-4 right-4 flex h-10 w-10 items-center justify-center rounded-full border backdrop-blur transition active:scale-90 " +
-              (isSaved
-                ? "border-rose-400 bg-rose-500 text-white shadow-[0_0_20px_-4px_rgba(244,63,94,0.7)]"
-                : "border-white/15 bg-white/10 text-slate-200 hover:text-rose-300")
-            }
-          >
-            <HeartIcon className="h-5 w-5" filled={isSaved} />
-          </button>
         </div>
 
-        <div className="flex flex-col gap-3 p-5 sm:p-6">
+        <div className="flex flex-col gap-2 p-4">
           <div className="flex flex-wrap items-center gap-2">
             {product.brand && (
-              <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-indigo-300">
+              <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-indigo-300">
                 {product.brand}
               </span>
             )}
@@ -1048,30 +1029,43 @@ function FeaturedDeal({
             {similarityPct !== null && (
               <Pill tone="violet">{similarityPct}% match</Pill>
             )}
+            <button
+              type="button"
+              onClick={onToggleSave}
+              aria-label={isSaved ? "Unsave" : "Save"}
+              aria-pressed={isSaved}
+              className={
+                "ml-auto flex h-7 w-7 items-center justify-center rounded-full border transition active:scale-90 " +
+                (isSaved
+                  ? "border-rose-400 bg-rose-500 text-white"
+                  : "border-white/15 bg-white/5 text-slate-300 hover:text-rose-300")
+              }
+            >
+              <HeartIcon className="h-3.5 w-3.5" filled={isSaved} />
+            </button>
           </div>
-          <h3 className="text-lg font-bold leading-tight tracking-tight text-white sm:text-xl" dir="auto">
+          <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-white sm:text-base" dir="auto">
             {product.canonical_title}
           </h3>
 
-          <div className="flex items-baseline gap-3">
-            <span className="text-2xl font-extrabold tracking-tight text-white sm:text-3xl">
+          <div className="flex items-baseline gap-2">
+            <span className="text-xl font-extrabold tracking-tight text-white sm:text-2xl">
               {formatPrice(best?.price ?? null)}
             </span>
             {worst && worst.price !== best.price && (
-              <span className="text-base text-slate-500 line-through">
+              <span className="text-xs text-slate-500 line-through">
                 up to {formatPrice(worst.price)}
+              </span>
+            )}
+            {spread !== null && (
+              <span className="ml-auto inline-flex items-center gap-1 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-2 py-0.5 text-[11px] font-semibold text-emerald-200">
+                <BoltIcon className="h-3 w-3" />
+                Save {formatPrice(String(spread))}
               </span>
             )}
           </div>
 
-          {spread !== null && (
-            <div className="inline-flex items-center gap-2 self-start rounded-full border border-emerald-400/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-200">
-              <BoltIcon className="h-3.5 w-3.5" />
-              Save up to {formatPrice(String(spread))} vs other platforms
-            </div>
-          )}
-
-          <div className="mt-1 flex flex-col gap-2">
+          <div className="mt-1 flex flex-col gap-1.5">
             {sortedListings.map((l, idx) => (
               <PlatformRow
                 key={l.id}
@@ -1080,18 +1074,6 @@ function FeaturedDeal({
               />
             ))}
           </div>
-
-          {best && (
-            <a
-              href={best.url}
-              target="_blank"
-              rel="noopener noreferrer nofollow"
-              className={`mt-2 inline-flex items-center justify-center gap-2 self-start rounded-full px-6 py-3 text-sm font-bold text-white shadow-lg ${accent.cta} ${accent.ctaShadow} transition hover:shadow-xl active:scale-95`}
-            >
-              Open on {PLATFORM_LABEL[best.platform] ?? best.platform}
-              <ArrowRightIcon className="h-4 w-4" />
-            </a>
-          )}
         </div>
       </div>
     </section>
@@ -1187,8 +1169,6 @@ function MaterialProductCard({
       ? Math.round(product.similarity * 100)
       : null;
   const spread = priceSpread(product.listings);
-  const accent =
-    best ? PLATFORM_ACCENT[best.platform] ?? PLATFORM_ACCENT.amazon : PLATFORM_ACCENT.amazon;
   const bigDeal = bestDiscount !== null && bestDiscount >= 40;
 
   return (
@@ -1200,7 +1180,7 @@ function MaterialProductCard({
           : "border-white/10 hover:border-indigo-400/50 hover:shadow-[0_24px_60px_-20px_rgba(79,70,229,0.55)]")
       }
     >
-      <div className="dotted-surface relative aspect-square w-full overflow-hidden bg-gradient-to-br from-[#1A1230] to-[#0F0A1F]">
+      <div className="dotted-surface relative aspect-[5/4] w-full overflow-hidden bg-gradient-to-br from-[#1B1F28] to-[#13161D]">
         {product.primary_image_url ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -1262,22 +1242,22 @@ function MaterialProductCard({
         </button>
       </div>
 
-      <div className="flex flex-1 flex-col gap-2.5 p-4">
+      <div className="flex flex-1 flex-col gap-2 p-3">
         <div className="flex items-baseline justify-between gap-2">
           {product.brand ? (
-            <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-indigo-300">
+            <span className="truncate text-[10px] font-bold uppercase tracking-[0.14em] text-indigo-300">
               {product.brand}
             </span>
           ) : (
             <span />
           )}
-          <span className="text-base font-extrabold tracking-tight text-white">
+          <span className="text-sm font-extrabold tracking-tight text-white">
             {formatPrice(product.best_price)}
           </span>
         </div>
 
         <h3
-          className="line-clamp-2 min-h-[2.5rem] text-sm font-semibold leading-snug text-slate-100"
+          className="line-clamp-2 min-h-[2.25rem] text-[13px] font-semibold leading-snug text-slate-100"
           dir="auto"
         >
           {product.canonical_title}
@@ -1299,18 +1279,6 @@ function MaterialProductCard({
             />
           ))}
         </div>
-
-        {best && (
-          <a
-            href={best.url}
-            target="_blank"
-            rel="noopener noreferrer nofollow"
-            className={`mt-2 inline-flex items-center justify-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold text-white shadow ${accent.cta} ${accent.ctaShadow} transition hover:shadow-lg active:scale-95`}
-          >
-            Open on {PLATFORM_LABEL[best.platform] ?? best.platform}
-            <ArrowRightIcon className="h-3.5 w-3.5" />
-          </a>
-        )}
       </div>
     </article>
   );
