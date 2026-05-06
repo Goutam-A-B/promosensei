@@ -183,6 +183,7 @@ export default function MaterialHomePage() {
   const [showSticky, setShowSticky] = useState(false);
   const [showFab, setShowFab] = useState(false);
   const [saved, setSaved] = useState<Set<number>>(new Set());
+  const [compareOpen, setCompareOpen] = useState(false);
 
   const runSearch = useCallback(async (params: SearchParams) => {
     abortRef.current?.abort();
@@ -221,11 +222,13 @@ export default function MaterialHomePage() {
   const onQuerySubmit = (q: string) => {
     const next = { ...filters, q, page: 1 };
     setFilters(next);
+    setCompareOpen(false);
     runSearch(next);
   };
   const onFiltersChange = (next: SearchParams) => {
     const reset = { ...next, page: 1 };
     setFilters(reset);
+    setCompareOpen(false);
     runSearch(reset);
   };
   const onModeChange = (mode: NonNullable<SearchParams["mode"]>) => {
@@ -301,10 +304,27 @@ export default function MaterialHomePage() {
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <SegmentedModeToggle
-            value={filters.mode ?? "hybrid"}
-            onChange={onModeChange}
-          />
+          <div className="flex flex-wrap items-center gap-2">
+            <SegmentedModeToggle
+              value={filters.mode ?? "hybrid"}
+              onChange={onModeChange}
+            />
+            <button
+              type="button"
+              onClick={() => setCompareOpen((v) => !v)}
+              disabled={!hasQuery}
+              title={hasQuery ? "Run all 3 modes side-by-side" : "Type a query first"}
+              className={
+                "inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-sm font-medium transition active:scale-95 " +
+                (compareOpen
+                  ? "border-emerald-400 bg-emerald-500/20 text-emerald-100"
+                  : "border-white/15 bg-white/5 text-slate-200 hover:border-emerald-400/50 hover:bg-emerald-500/10 hover:text-emerald-200 disabled:cursor-not-allowed disabled:opacity-40")
+              }
+            >
+              <BoltIcon className="h-3.5 w-3.5" />
+              {compareOpen ? "Hide compare" : "Compare all 3"}
+            </button>
+          </div>
           <FiltersBar filters={filters} onChange={onFiltersChange} />
         </div>
         <PlatformChipFilter
@@ -321,6 +341,14 @@ export default function MaterialHomePage() {
           anyActive={hasAnyFilter(filters)}
         />
         <ScraperHealthStrip />
+
+        {compareOpen && hasQuery && (
+          <ComparePanel
+            query={filters.q ?? ""}
+            baseFilters={filters}
+            onClose={() => setCompareOpen(false)}
+          />
+        )}
 
         {error && (
           <div
@@ -1346,6 +1374,237 @@ function PlatformRow({ listing, isBest }: { listing: Listing; isBest: boolean })
         </span>
       </span>
     </a>
+  );
+}
+
+// ---------- compare modes panel ----------
+// Fires three parallel /search calls (keyword | hybrid | semantic) for the
+// current query and renders the top 6 from each in three columns. Each
+// result shows its rank and is colour-coded by overlap:
+//   • emerald ring = unique to this mode (this is where modes diverge)
+//   • slate (default) = appears in 2+ modes
+// Recruiter-friendly proof that the modes do different things.
+
+type CompareMode = "keyword" | "hybrid" | "semantic";
+
+const COMPARE_META: Record<
+  CompareMode,
+  { label: string; hint: string; tone: string; ring: string; bg: string }
+> = {
+  keyword: {
+    label: "Keyword",
+    hint: "Postgres FTS · literal word match",
+    tone: "text-amber-200",
+    ring: "ring-amber-400/30",
+    bg: "from-amber-500/10 to-transparent",
+  },
+  hybrid: {
+    label: "Hybrid",
+    hint: "Keyword + vector fusion",
+    tone: "text-indigo-200",
+    ring: "ring-indigo-400/30",
+    bg: "from-indigo-500/10 to-transparent",
+  },
+  semantic: {
+    label: "Semantic",
+    hint: "Pure embedding similarity",
+    tone: "text-emerald-200",
+    ring: "ring-emerald-400/30",
+    bg: "from-emerald-500/10 to-transparent",
+  },
+};
+
+function ComparePanel({
+  query,
+  baseFilters,
+  onClose,
+}: {
+  query: string;
+  baseFilters: SearchParams;
+  onClose: () => void;
+}) {
+  const [results, setResults] = useState<Record<CompareMode, SearchResponse | null>>({
+    keyword: null,
+    hybrid: null,
+    semantic: null,
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    const ctrl = new AbortController();
+    setLoading(true);
+    setError(null);
+    const params: SearchParams = {
+      q: query,
+      sort: "relevance",
+      page: 1,
+      page_size: 6,
+      min_price: baseFilters.min_price,
+      max_price: baseFilters.max_price,
+      min_rating: baseFilters.min_rating,
+      platform: baseFilters.platform,
+    };
+    Promise.all([
+      search({ ...params, mode: "keyword"  }, ctrl.signal),
+      search({ ...params, mode: "hybrid"   }, ctrl.signal),
+      search({ ...params, mode: "semantic" }, ctrl.signal),
+    ])
+      .then(([kw, hy, sm]) => {
+        if (cancelled) return;
+        setResults({ keyword: kw, hybrid: hy, semantic: sm });
+        setLoading(false);
+      })
+      .catch((e) => {
+        if (cancelled) return;
+        if ((e as Error).name === "AbortError") return;
+        setError((e as Error).message);
+        setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+      ctrl.abort();
+    };
+  }, [query, baseFilters.min_price, baseFilters.max_price, baseFilters.min_rating, baseFilters.platform]);
+
+  // Build overlap map: how many modes contain each product id?
+  const overlapById = useMemo(() => {
+    const m = new Map<number, number>();
+    (Object.keys(results) as CompareMode[]).forEach((mode) => {
+      const r = results[mode];
+      r?.results.forEach((p) => m.set(p.id, (m.get(p.id) ?? 0) + 1));
+    });
+    return m;
+  }, [results]);
+
+  const totalUnique = overlapById.size;
+  const sharedAll = Array.from(overlapById.values()).filter((c) => c === 3).length;
+
+  return (
+    <section className="rounded-3xl border border-white/10 bg-white/[0.04] p-4 backdrop-blur-md sm:p-5">
+      <header className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-col gap-0.5">
+          <h3 className="text-sm font-bold tracking-tight text-white">
+            <span className="text-emerald-300">Compare modes</span> · &ldquo;{query}&rdquo;
+          </h3>
+          <p className="text-[11px] text-slate-400">
+            Top 6 from each mode. Items ringed in emerald are{" "}
+            <span className="font-semibold text-emerald-300">unique to that mode</span> —
+            that&apos;s where keyword/hybrid/semantic diverge.
+            {!loading && totalUnique > 0 && (
+              <>
+                {" "}<span className="text-slate-300">{sharedAll} item{sharedAll === 1 ? "" : "s"}</span> in all 3,{" "}
+                <span className="text-slate-300">{totalUnique} unique products</span> across the union.
+              </>
+            )}
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close compare"
+          className="rounded-full border border-white/15 bg-white/5 p-1.5 text-slate-300 transition hover:bg-white/10 hover:text-white"
+        >
+          <XIcon className="h-4 w-4" />
+        </button>
+      </header>
+
+      {error && (
+        <div className="mt-3 rounded-2xl border border-rose-400/30 bg-rose-500/10 px-3 py-2 text-xs text-rose-200">
+          {error}
+        </div>
+      )}
+
+      <div className="mt-4 grid grid-cols-1 gap-3 lg:grid-cols-3">
+        {(["keyword", "hybrid", "semantic"] as CompareMode[]).map((mode) => {
+          const meta = COMPARE_META[mode];
+          const r = results[mode];
+          return (
+            <div
+              key={mode}
+              className={`flex flex-col gap-2 rounded-2xl border border-white/10 bg-gradient-to-b ${meta.bg} p-3`}
+            >
+              <div className="flex items-baseline justify-between gap-2">
+                <div className="flex flex-col">
+                  <span className={`text-xs font-bold uppercase tracking-[0.16em] ${meta.tone}`}>
+                    {meta.label}
+                  </span>
+                  <span className="text-[10px] text-slate-500">{meta.hint}</span>
+                </div>
+                {r && (
+                  <span className="text-[10px] font-mono text-slate-500">
+                    {r.results.length}/{r.total} · {r.latency_ms !== null ? `${Math.round(r.latency_ms)}ms` : "—"}
+                    {r.cache_hit ? " · cache" : ""}
+                  </span>
+                )}
+              </div>
+              {loading ? (
+                <CompareColumnSkeleton />
+              ) : !r || r.results.length === 0 ? (
+                <div className="rounded-xl border border-dashed border-white/10 px-3 py-6 text-center text-xs text-slate-500">
+                  No results
+                </div>
+              ) : (
+                <ol className="flex flex-col gap-1.5">
+                  {r.results.slice(0, 6).map((p, idx) => {
+                    const overlap = overlapById.get(p.id) ?? 1;
+                    const unique = overlap === 1;
+                    return (
+                      <li key={p.id}>
+                        <a
+                          href={p.listings[0]?.url ?? "#"}
+                          target="_blank"
+                          rel="noopener noreferrer nofollow"
+                          className={
+                            "flex items-center gap-2 rounded-xl border bg-white/[0.03] px-2 py-1.5 transition hover:bg-white/[0.07] " +
+                            (unique
+                              ? "border-emerald-400/40 ring-1 ring-emerald-400/30"
+                              : "border-white/10")
+                          }
+                        >
+                          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/10 text-[10px] font-bold text-slate-200">
+                            {idx + 1}
+                          </span>
+                          <span className="min-w-0 flex-1">
+                            <span className="block truncate text-[12px] font-medium text-slate-100">
+                              {p.canonical_title}
+                            </span>
+                            <span className="flex items-center gap-2 text-[10px] text-slate-500">
+                              <span className="font-mono">{formatPrice(p.best_price)}</span>
+                              {mode !== "keyword" && p.similarity > 0 && (
+                                <span className="text-emerald-300">
+                                  {Math.round(p.similarity * 100)}% sim
+                                </span>
+                              )}
+                              {unique && (
+                                <span className="font-semibold uppercase tracking-wider text-emerald-300">
+                                  unique
+                                </span>
+                              )}
+                            </span>
+                          </span>
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ol>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function CompareColumnSkeleton() {
+  return (
+    <div className="flex flex-col gap-1.5">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <div key={i} className="skeleton-shimmer h-9 w-full rounded-xl" />
+      ))}
+    </div>
   );
 }
 
